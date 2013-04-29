@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using ExtraMVCExtension.Bootstrap.Enums;
-using ExtraMVCExtension.Bootstrap.Utils;
 
 namespace ExtraMVCExtension.Bootstrap
 {
@@ -32,7 +30,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// Make a paragraph using the lead class to make it stand out.
         /// </summary>
         /// <param name="text">Content of the paragraph</param>
-        public MvcHtmlString LeadBody(string text)
+        public static MvcHtmlString LeadBody(string text)
         {
             var p = new TagBuilder("p");
             p.AddCssClass("lead");
@@ -46,7 +44,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// </summary>
         /// <param name="text">Content of the emphasized paragraph</param>
         /// <param name="emphasisType">Type of the emphasis</param>
-        public MvcHtmlString EmphasizedParagraph(string text, Emphasis emphasisType)
+        public static MvcHtmlString EmphasizedParagraph(string text, Emphasis emphasisType)
         {
             var p = new TagBuilder("p");
 
@@ -80,7 +78,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// </summary>
         /// <param name="title">Definition of the abbreaviation.</param>
         /// <param name="value">The abbreviation.</param>
-        public MvcHtmlString Abbreviation(string title, string value)
+        public static MvcHtmlString Abbreviation(string title, string value)
         {
             return Abbreviation(title, value, false);
         }
@@ -91,7 +89,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// <param name="title">Definition of the abbreaviation.</param>
         /// <param name="value">The abbreviation.</param>
         /// <param name="isReduced">Defines if the abbreviation uses the initialism class for a slightly smaller font-size.</param>
-        public MvcHtmlString Abbreviation(string title, string value, bool isReduced)
+        public static MvcHtmlString Abbreviation(string title, string value, bool isReduced)
         {
             var abbr = new TagBuilder("abbr");
             if (isReduced)
@@ -109,7 +107,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// <param name="author">The author.</param>
         /// <param name="source">The source.</param>
         /// <param name="sourceTitle">The source title.</param>
-        public MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle)
+        public static MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle)
         {
             return Blockquote(quote, author, source, sourceTitle, false);
         }
@@ -122,7 +120,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// <param name="source">The source.</param>
         /// <param name="sourceTitle">The source title.</param>
         /// <param name="isPulledRight">Set to true for a floated, right-aligned blockquote.</param>
-        public MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
+        public static MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
         {
             var cite = new TagBuilder("cite");
             cite.MergeAttribute("title", sourceTitle);
@@ -147,9 +145,9 @@ namespace ExtraMVCExtension.Bootstrap
         /// </summary>
         /// <param name="listType">Type of the desired list.</param>
         /// <returns></returns>
-        public BootstrapMvcList BeginList(ListType listType)
+        public BootstrapMVCList BeginList(ListType listType)
         {
-            var list = new BootstrapMvcList(_helper.ViewContext);
+            var list = new BootstrapMVCList(_helper.ViewContext);
             list.BeginList(listType);
 
             return list;
@@ -159,9 +157,9 @@ namespace ExtraMVCExtension.Bootstrap
         /// A list of terms with their associated descriptions.
         /// </summary>
         /// <param name="isHorizontal">Make terms and descriptions in dl line up side-by-side.</param>
-        public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
+        public BootstrapMVCList BeginDescriptionList(bool isHorizontal)
         {
-            var list = new BootstrapMvcList(_helper.ViewContext);
+            var list = new BootstrapMVCList(_helper.ViewContext);
             list.BeginDescriptionList(isHorizontal);
 
             return list;
@@ -172,9 +170,12 @@ namespace ExtraMVCExtension.Bootstrap
         /// </summary>
         /// <param name="listType">The type of the list.</param>
         /// <param name="elements">The elements of the list.</param>
-        public MvcHtmlString List(ListType listType, IEnumerable<string> elements)
+        public static MvcHtmlString List(ListType listType, IEnumerable<string> elements)
         {
-            var root = BootstrapMvcList.GetRootTagBuilder(listType);
+            var root = BootstrapMVCList.GetRootTagBuilder(listType);
+
+            if (elements == null)
+                return MvcHtmlString.Create(root.ToString());
 
             foreach (var element in elements)
             {
@@ -189,8 +190,11 @@ namespace ExtraMVCExtension.Bootstrap
         /// </summary>
         /// <param name="isHorizontal">Make terms and descriptions in line up side-by-side.</param>
         /// <param name="elements">The dictionary of descriptions by title (key) and description (value).</param>
-        public MvcHtmlString DescriptionList(bool isHorizontal, IDictionary<string, string> elements)
+        public static MvcHtmlString DescriptionList(bool isHorizontal, IDictionary<string, string> elements)
         {
+            if (elements == null)
+                return null;
+
             var root = new TagBuilderExt("dl");
             if (isHorizontal)
                 root.AddCssClass("dl-horizontal");
@@ -203,14 +207,16 @@ namespace ExtraMVCExtension.Bootstrap
 
             return MvcHtmlString.Create(root.ToString());
         }
+        #endregion
 
+        #region Images
         /// <summary>
         /// Define an image
         /// </summary>
         /// <param name="source">the url for the image</param>
         /// <param name="alt">alternate text for the image</param>
         /// <param name="imageType">type of image</param>
-        public MvcHtmlString Image(string source, string alt, ImageType imageType)
+        public static MvcHtmlString Image(string source, string alt, ImageType imageType)
         {
             var img = new TagBuilder("img");
             img.MergeAttribute("alt", alt);
@@ -237,13 +243,12 @@ namespace ExtraMVCExtension.Bootstrap
         /// <summary>
         /// Define an Image(source as the alternate text). 
         /// </summary>
-        /// <param name="source">url & alternate text</param>
+        /// <param name="source">url and alternate text</param>
         /// <param name="imageType">type of image</param>
-        public MvcHtmlString Image(string source, ImageType imageType)
+        public static MvcHtmlString Image(string source, ImageType imageType)
         {
             return Image(source, source, imageType);
         }
-
         #endregion
     }
 }

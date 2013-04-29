@@ -1,5 +1,8 @@
 ﻿namespace ExtraMVCExtension.Bootstrap.Enums
 {
+    /// <summary>
+    /// Defines the different types of image style.
+    /// </summary>
     public enum ImageType
     {   
         /// <summary>

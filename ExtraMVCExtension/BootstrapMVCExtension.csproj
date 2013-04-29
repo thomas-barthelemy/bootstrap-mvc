@@ -25,7 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\ExtraMVCExtension.Bootstrap.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -50,20 +50,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootstrapHelper.cs" />
-    <Compile Include="Models\BootstrapList.cs" />
-    <Compile Include="Models\BootstrapMvcPage.cs" />
+    <Compile Include="BootstrapList.cs" />
+    <Compile Include="BootstrapMvcPage.cs" />
     <Compile Include="Enums\Buttons.cs" />
     <Compile Include="Enums\Forms.cs" />
     <Compile Include="Enums\Images.cs" />
     <Compile Include="Enums\Tables.cs" />
     <Compile Include="Enums\Typography.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\TagBuilderExt.cs" />
+    <Compile Include="TagBuilderExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

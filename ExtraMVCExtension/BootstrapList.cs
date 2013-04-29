@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Web.Mvc;
 using ExtraMVCExtension.Bootstrap.Enums;
-using ExtraMVCExtension.Bootstrap.Utils;
 
 namespace ExtraMVCExtension.Bootstrap
 {
     /// <summary>
     /// Represents a Boostrap list element in an MVC view.
     /// </summary>
-    public class BootstrapMvcList : IDisposable
+    public class BootstrapMVCList : IDisposable
     {
         private readonly ViewContext _context;
         private bool _isStopped;
@@ -17,7 +16,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// <summary>
         /// Create a new Bootstrap list for an MVC view.
         /// </summary>
-        internal BootstrapMvcList(ViewContext context)
+        internal BootstrapMVCList(ViewContext context)
         {
             _context = context;
         }
@@ -46,21 +45,21 @@ namespace ExtraMVCExtension.Bootstrap
 
         internal static TagBuilderExt GetRootTagBuilder(ListType listType)
         {
-            TagBuilder root;
+            TagBuilderExt root;
             switch (listType)
             {
                 case ListType.Unordered:
-                    root = new TagBuilder("ul");
+                    root = new TagBuilderExt("ul");
                     break;
                 case ListType.Ordered:
-                    root = new TagBuilder("ol");
+                    root = new TagBuilderExt("ol");
                     break;
                 case ListType.Unstyled:
-                    root = new TagBuilder("ul");
+                    root = new TagBuilderExt("ul");
                     root.AddCssClass("unstyled");
                     break;
                 case ListType.Inline:
-                    root = new TagBuilder("ul");
+                    root = new TagBuilderExt("ul");
                     root.AddCssClass("inline");
                     break;
                 default:
@@ -79,6 +78,9 @@ namespace ExtraMVCExtension.Bootstrap
             _listTags = null;
         }
 
+        /// <summary>
+        /// Dispose the BootstrapMvcList and call for garbage collection.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
