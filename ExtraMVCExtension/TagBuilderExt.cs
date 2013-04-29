@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Web.Mvc;
 using System.Linq;
 
-namespace ExtraMVCExtension.Bootstrap
+namespace ExtraMvcExtension.Bootstrap
 {
     /// <summary>
     /// Extends the basic TagBuilder in order to better support hierarchical tags

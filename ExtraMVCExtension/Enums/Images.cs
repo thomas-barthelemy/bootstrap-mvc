@@ -1,4 +1,4 @@
-﻿namespace ExtraMVCExtension.Bootstrap.Enums
+﻿namespace ExtraMvcExtension.Bootstrap.Enums
 {
     /// <summary>
     /// Defines the different types of image style.

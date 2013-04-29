@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootstrapMVCExtension", "BootstrapMVCExtension.csproj", "{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootstrapMvcExtension", "BootstrapMvcExtension.csproj", "{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution

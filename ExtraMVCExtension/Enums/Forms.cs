@@ -1,4 +1,4 @@
-﻿namespace ExtraMVCExtension.Bootstrap.Enums
+﻿namespace ExtraMvcExtension.Bootstrap.Enums
 {
 
 }

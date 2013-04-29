@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using ExtraMVCExtension.Bootstrap.Enums;
+using ExtraMvcExtension.Bootstrap.Enums;
 
-namespace ExtraMVCExtension.Bootstrap
+namespace ExtraMvcExtension.Bootstrap
 {
     /// <summary>
     /// Provides static methods to generate HTML code for Twitter's Bootstrap.
@@ -126,7 +126,7 @@ namespace ExtraMVCExtension.Bootstrap
             cite.MergeAttribute("title", sourceTitle);
             cite.SetInnerText(source);
 
-            var small = new TagBuilder("small") {InnerHtml = String.Concat(author, " ", cite.ToString())};
+            var small = new TagBuilder("small") { InnerHtml = String.Concat(author, " ", cite.ToString()) };
 
             var p = new TagBuilder("p");
             p.SetInnerText(quote);
@@ -145,9 +145,9 @@ namespace ExtraMVCExtension.Bootstrap
         /// </summary>
         /// <param name="listType">Type of the desired list.</param>
         /// <returns></returns>
-        public BootstrapMVCList BeginList(ListType listType)
+        public BootstrapMvcList BeginList(ListType listType)
         {
-            var list = new BootstrapMVCList(_helper.ViewContext);
+            var list = new BootstrapMvcList(_helper.ViewContext);
             list.BeginList(listType);
 
             return list;
@@ -157,9 +157,9 @@ namespace ExtraMVCExtension.Bootstrap
         /// A list of terms with their associated descriptions.
         /// </summary>
         /// <param name="isHorizontal">Make terms and descriptions in dl line up side-by-side.</param>
-        public BootstrapMVCList BeginDescriptionList(bool isHorizontal)
+        public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
         {
-            var list = new BootstrapMVCList(_helper.ViewContext);
+            var list = new BootstrapMvcList(_helper.ViewContext);
             list.BeginDescriptionList(isHorizontal);
 
             return list;
@@ -172,7 +172,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// <param name="elements">The elements of the list.</param>
         public static MvcHtmlString List(ListType listType, IEnumerable<string> elements)
         {
-            var root = BootstrapMVCList.GetRootTagBuilder(listType);
+            var root = BootstrapMvcList.GetRootTagBuilder(listType);
 
             if (elements == null)
                 return MvcHtmlString.Create(root.ToString());
@@ -207,6 +207,172 @@ namespace ExtraMVCExtension.Bootstrap
 
             return MvcHtmlString.Create(root.ToString());
         }
+        #endregion
+
+        #region Buttons
+
+        private static TagBuilderExt CreateBaseButton(string tagName, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
+        {
+            var tag = new TagBuilderExt(tagName);
+            tag.AddCssClass("btn");
+
+            switch (buttonStyle)
+            {
+                case ButtonStyles.Primary:
+                    tag.AddCssClass("btn-primary");
+                    break;
+                case ButtonStyles.Info:
+                    tag.AddCssClass("btn-info");
+                    break;
+                case ButtonStyles.Success:
+                    tag.AddCssClass("btn-success");
+                    break;
+                case ButtonStyles.Warning:
+                    tag.AddCssClass("btn-warning");
+                    break;
+                case ButtonStyles.Danger:
+                    tag.AddCssClass("btn-danger");
+                    break;
+                case ButtonStyles.Inverse:
+                    tag.AddCssClass("btn-inverse");
+                    break;
+                case ButtonStyles.Link:
+                    tag.AddCssClass("btn-link");
+                    break;
+            }
+
+            switch (buttonSize)
+            {
+                case ButtonSizes.Large:
+                    tag.AddCssClass("btn-large");
+                    break;
+                case ButtonSizes.Small:
+                    tag.AddCssClass("btn-small");
+                    break;
+                case ButtonSizes.Mini:
+                    tag.AddCssClass("btn-mini");
+                    break;
+            }
+
+            if (isDisabled)
+                tag.AddCssClass("disabled");
+
+            return tag;
+        }
+
+        #region Link buttons
+
+        /// <summary>
+        /// Creates an "a" tag styled as a button.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        /// <param name="href">Link destination.</param>
+        /// <param name="buttonType">The button style type.</param>
+        /// <param name="buttonSize">The button size.</param>
+        /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
+        public static MvcHtmlString LinkButton(string text, string href, ButtonStyles buttonType, ButtonSizes buttonSize, bool isDisabled)
+        {
+            var tag = CreateBaseButton("a", buttonType, buttonSize, isDisabled);
+            tag.SetInnerText(text);
+            tag.MergeAttribute("href", href);
+
+            return new MvcHtmlString(tag.ToString());
+        }
+        /// <summary>
+        /// Creates an "a" tag with a default button style and size.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        /// <param name="href">Link destination.</param>
+        public static MvcHtmlString LinkButton(string text, string href)
+        {
+            return LinkButton(text, href, ButtonStyles.Default, ButtonSizes.Default, false);
+        }
+        #endregion
+
+        #region Submit buttons
+        /// <summary>
+        /// Creates a submit button tag with the given style and size.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        /// <param name="buttonStyle">The button style type.</param>
+        /// <param name="buttonSize">The button size.</param>
+        /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
+        public static MvcHtmlString SubmitButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
+        {
+            var tag = CreateBaseButton("button", buttonStyle, buttonSize, isDisabled);
+            tag.MergeAttribute("type", "submit");
+            tag.SetInnerText(text);
+
+            return new MvcHtmlString(tag.ToString());
+        }
+        /// <summary>
+        /// Creates a submit button tag with a default style and size.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        public static MvcHtmlString SubmitButton(string text)
+        {
+            return SubmitButton(text, ButtonStyles.Default, ButtonSizes.Default, false);
+        }
+        #endregion
+
+        #region Input buttons
+        /// <summary>
+        /// Creates an input button tag with the given style and size.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        /// <param name="buttonStyle">The button style type.</param>
+        /// <param name="buttonSize">The button size.</param>
+        public static MvcHtmlString InputButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize)
+        {
+            var tag = CreateBaseButton("input", buttonStyle, buttonSize);
+            tag.MergeAttribute("type", "button");
+            tag.SetInnerText(text);
+
+            return new MvcHtmlString(tag.ToString());
+        }
+        /// <summary>
+        /// Creates an input button tag with a default style and size.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        public static MvcHtmlString InputButton(string text)
+        {
+            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default);
+            tag.MergeAttribute("type", "button");
+            tag.SetInnerText(text);
+
+            return new MvcHtmlString(tag.ToString());
+        }
+        #endregion
+
+        #region Input buttons
+        /// <summary>
+        /// Creates an input submit button tag with the given style and size.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        /// <param name="buttonStyle">The button style type.</param>
+        /// <param name="buttonSize">The button size.</param>
+        public static MvcHtmlString InputSubmitButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize)
+        {
+            var tag = CreateBaseButton("input", buttonStyle, buttonSize);
+            tag.MergeAttribute("type", "submit");
+            tag.SetInnerText(text);
+
+            return new MvcHtmlString(tag.ToString());
+        }
+        /// <summary>
+        /// Creates an input submit button tag with a default style and size.
+        /// </summary>
+        /// <param name="text">Inner text of the tag.</param>
+        public static MvcHtmlString InputSubmitButton(string text)
+        {
+            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default);
+            tag.MergeAttribute("type", "submit");
+            tag.SetInnerText(text);
+
+            return new MvcHtmlString(tag.ToString());
+        }
+        #endregion
+
         #endregion
 
         #region Images

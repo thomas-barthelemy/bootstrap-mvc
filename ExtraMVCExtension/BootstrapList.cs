@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Web.Mvc;
-using ExtraMVCExtension.Bootstrap.Enums;
+using ExtraMvcExtension.Bootstrap.Enums;
 
-namespace ExtraMVCExtension.Bootstrap
+namespace ExtraMvcExtension.Bootstrap
 {
     /// <summary>
     /// Represents a Boostrap list element in an MVC view.
     /// </summary>
-    public class BootstrapMVCList : IDisposable
+    public class BootstrapMvcList : IDisposable
     {
         private readonly ViewContext _context;
         private bool _isStopped;
@@ -16,7 +16,7 @@ namespace ExtraMVCExtension.Bootstrap
         /// <summary>
         /// Create a new Bootstrap list for an MVC view.
         /// </summary>
-        internal BootstrapMVCList(ViewContext context)
+        internal BootstrapMvcList(ViewContext context)
         {
             _context = context;
         }

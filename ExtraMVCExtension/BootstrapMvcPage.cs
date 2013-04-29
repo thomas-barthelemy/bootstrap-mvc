@@ -1,12 +1,12 @@
 ﻿using System.Web.Mvc;
 
-namespace ExtraMVCExtension.Bootstrap
+namespace ExtraMvcExtension.Bootstrap
 {
     /// <summary>
     /// Represents an MVC web page with an included Bootstrap HTML helper.
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class BootstrapMVCPage<TModel> : WebViewPage<TModel>
+    public class BootstrapMvcPage<TModel> : WebViewPage<TModel>
     {
         private BootstrapHelper _bootstrap;
 

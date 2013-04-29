@@ -7,8 +7,8 @@
     <ProjectGuid>{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExtraMVCExtension.Bootstrap</RootNamespace>
-    <AssemblyName>ExtraMVCExtension.Bootstrap</AssemblyName>
+    <RootNamespace>ExtraMvcExtension.Bootstrap</RootNamespace>
+    <AssemblyName>ExtraMvcExtension.Bootstrap</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\ExtraMVCExtension.Bootstrap.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\ExtraMvcExtension.Bootstrap.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,10 +63,7 @@
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
