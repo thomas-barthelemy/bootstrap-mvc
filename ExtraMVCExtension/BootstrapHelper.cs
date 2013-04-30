@@ -322,9 +322,10 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
-        public static MvcHtmlString InputButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize)
+        /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
+        public static MvcHtmlString InputButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
         {
-            var tag = CreateBaseButton("input", buttonStyle, buttonSize);
+            var tag = CreateBaseButton("input", buttonStyle, buttonSize, isDisabled);
             tag.MergeAttribute("type", "button");
             tag.SetInnerText(text);
 
@@ -336,7 +337,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="text">Inner text of the tag.</param>
         public static MvcHtmlString InputButton(string text)
         {
-            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default);
+            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default, false);
             tag.MergeAttribute("type", "button");
             tag.SetInnerText(text);
 
@@ -351,9 +352,10 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
-        public static MvcHtmlString InputSubmitButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize)
+        /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
+        public static MvcHtmlString InputSubmitButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
         {
-            var tag = CreateBaseButton("input", buttonStyle, buttonSize);
+            var tag = CreateBaseButton("input", buttonStyle, buttonSize, isDisabled);
             tag.MergeAttribute("type", "submit");
             tag.SetInnerText(text);
 
@@ -365,7 +367,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="text">Inner text of the tag.</param>
         public static MvcHtmlString InputSubmitButton(string text)
         {
-            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default);
+            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default, false);
             tag.MergeAttribute("type", "submit");
             tag.SetInnerText(text);
 
