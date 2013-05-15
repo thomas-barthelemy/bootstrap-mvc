@@ -5,8 +5,7 @@ namespace ExtraMvcExtension.Bootstrap
     /// <summary>
     /// Represents an MVC web page with an included Bootstrap HTML helper.
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    public class BootstrapMvcPage<TModel> : WebViewPage<TModel>
+    public class BootstrapMvcPage : WebViewPage
     {
         private BootstrapHelper _bootstrap;
 
@@ -22,7 +21,15 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         public BootstrapHelper Bootstrap
         {
-            get { return _bootstrap ?? (_bootstrap = new BootstrapHelper(Html)); }
+            get { return _bootstrap ?? (_bootstrap = new BootstrapHelper(this)); }
         }
+    }
+
+    /// <summary>
+    /// Represents an MVC web page with an included Bootstrap HTML helper.
+    /// </summary>
+    public class BootstrapMvcPage<TModel> : BootstrapMvcPage
+    {
+
     }
 }

@@ -18,7 +18,8 @@ namespace ExtraMvcExtension.Bootstrap
         /// Instanciates a new tag with a given name.
         /// </summary>
         /// <param name="tagName">Name of the tag.</param>
-        public TagBuilderExt(string tagName) : base(tagName)
+        public TagBuilderExt(string tagName)
+            : base(tagName)
         {
         }
 
@@ -27,7 +28,8 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         /// <param name="tagName">Name of the tag.</param>
         /// <param name="childs">Child tags collection.</param>
-        public TagBuilderExt(string tagName, IEnumerable<TagBuilderExt> childs) : base(tagName)
+        public TagBuilderExt(string tagName, IEnumerable<TagBuilderExt> childs)
+            : base(tagName)
         {
             if (childs == null)
                 return;
@@ -43,7 +45,8 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         /// <param name="tagName">Name of the tag.</param>
         /// <param name="innerText">Inner text of the tag.</param>
-        public TagBuilderExt(string tagName, string innerText) : base(tagName)
+        public TagBuilderExt(string tagName, string innerText)
+            : base(tagName)
         {
             SetInnerText(innerText);
         }
@@ -80,13 +83,30 @@ namespace ExtraMvcExtension.Bootstrap
         /// <returns>HTML code for the tag and its child tags.</returns>
         public new string ToString(TagRenderMode tagRenderMode)
         {
-            var tmp = InnerHtml;
+            string result;
 
-            InnerHtml += string.Concat(ChildrenTags.SelectMany(c => c.ToString()));
-            var result = base.ToString(tagRenderMode);
-            InnerHtml = tmp;
+            switch (tagRenderMode)
+            {
+                case TagRenderMode.Normal:
+                    result = base.ToString(TagRenderMode.StartTag);
+                    result += InnerHtml;
+                    result += string.Concat(ChildrenTags.SelectMany(c => c.ToString(TagRenderMode.Normal)));
+                    result += base.ToString(TagRenderMode.EndTag);
+                    break;
+                case TagRenderMode.StartTag:
+                    result = base.ToString(TagRenderMode.StartTag);
+                    result += string.Concat(ChildrenTags.SelectMany(c => c.ToString(TagRenderMode.StartTag)));
+                    break;
+                case TagRenderMode.EndTag:
+                    result = string.Concat(ChildrenTags.Reverse().SelectMany(c => c.ToString(TagRenderMode.EndTag)));
+                    result += base.ToString(TagRenderMode.EndTag);
+                    break;
+                default:
+                    result = base.ToString(tagRenderMode);
+                    break;
+            }
             return result;
         }
-        
+
     }
 }

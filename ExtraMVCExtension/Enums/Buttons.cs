@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the different button types.
     /// </summary>
-    public enum ButtonTypes
+    public enum ButtonType
     {
         /// <summary>
         /// An HTML Input type button.
@@ -18,7 +18,7 @@
     /// <summary>
     /// Defines the different button styles.
     /// </summary>
-    public enum ButtonStyles
+    public enum ButtonStyle
     {
         /// <summary>
         /// Standard gray button with gradient.
@@ -57,7 +57,7 @@
     /// <summary>
     /// Defines the possible button sizes.
     /// </summary>
-    public enum ButtonSizes
+    public enum ButtonSize
     {
         /// <summary>
         /// Large button

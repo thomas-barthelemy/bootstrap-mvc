@@ -51,10 +51,13 @@
   <ItemGroup>
     <Compile Include="BootstrapHelper.cs" />
     <Compile Include="BootstrapList.cs" />
+    <Compile Include="BootstrapMenuItemContainer.cs" />
+    <Compile Include="BootstrapMvcMenu.cs" />
     <Compile Include="BootstrapMvcPage.cs" />
     <Compile Include="Enums\Buttons.cs" />
     <Compile Include="Enums\Forms.cs" />
     <Compile Include="Enums\Images.cs" />
+    <Compile Include="Enums\Menus.cs" />
     <Compile Include="Enums\Tables.cs" />
     <Compile Include="Enums\Typography.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

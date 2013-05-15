@@ -11,7 +11,7 @@ namespace ExtraMvcExtension.Bootstrap
     {
         private readonly ViewContext _context;
         private bool _isStopped;
-        private TagBuilder _listTags;
+        private TagBuilder _listTag;
 
         /// <summary>
         /// Create a new Bootstrap list for an MVC view.
@@ -23,23 +23,23 @@ namespace ExtraMvcExtension.Bootstrap
 
         internal void BeginList(ListType listType)
         {
-            _listTags = GetRootTagBuilder(listType);
-            _context.Writer.WriteLine(MvcHtmlString.Create(_listTags.ToString(TagRenderMode.StartTag)));
+            _listTag = GetRootTagBuilder(listType);
+            _context.Writer.WriteLine(MvcHtmlString.Create(_listTag.ToString(TagRenderMode.StartTag)));
         }
 
         internal void BeginDescriptionList(bool isHorizontal)
         {
-            _listTags = new TagBuilder("dl");
+            _listTag = new TagBuilder("dl");
             if (isHorizontal)
-                _listTags.AddCssClass("dl-horizontal");
-            _context.Writer.WriteLine(MvcHtmlString.Create(_listTags.ToString(TagRenderMode.StartTag)));
+                _listTag.AddCssClass("dl-horizontal");
+            _context.Writer.WriteLine(MvcHtmlString.Create(_listTag.ToString(TagRenderMode.StartTag)));
         }
 
         internal void StopList()
         {
             if (_isStopped) return;
 
-            _context.Writer.WriteLine(MvcHtmlString.Create(_listTags.ToString(TagRenderMode.EndTag)));
+            _context.Writer.WriteLine(MvcHtmlString.Create(_listTag.ToString(TagRenderMode.EndTag)));
             _isStopped = true;
         }
 
@@ -75,7 +75,7 @@ namespace ExtraMvcExtension.Bootstrap
             if (!cleanManaged) return;
 
             // Clean up managed resources
-            _listTags = null;
+            _listTag = null;
         }
 
         /// <summary>

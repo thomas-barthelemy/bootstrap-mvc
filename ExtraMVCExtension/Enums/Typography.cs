@@ -3,7 +3,7 @@
     /// <summary>
     /// Bootstrap supported emphasis types.
     /// </summary>
-    public enum Emphasis
+    public enum EmphasisType
     {
 
         /// <summary>

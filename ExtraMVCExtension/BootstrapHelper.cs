@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using ExtraMvcExtension.Bootstrap.Enums;
@@ -6,31 +7,34 @@ using ExtraMvcExtension.Bootstrap.Enums;
 namespace ExtraMvcExtension.Bootstrap
 {
     /// <summary>
-    /// Provides static methods to generate HTML code for Twitter's Bootstrap.
+    /// Provides methods to generate HTML code for Twitter's Bootstrap.
     /// </summary>
     public class BootstrapHelper
     {
         #region Fields
-        private readonly HtmlHelper _helper;
+        private readonly HtmlHelper _html;
+        private readonly UrlHelper _url;
+
         #endregion
 
         #region Constructors
         /// <summary>
         /// Creates a new instance of the Bootstrap helper.
         /// </summary>
-        /// <param name="helper">The view HtmlHelper</param>
-        public BootstrapHelper(HtmlHelper helper)
+        /// <param name="page">The current view</param>
+        public BootstrapHelper(WebViewPage page)
         {
-            _helper = helper;
+            _html = page.Html;
+            _url = page.Url;
         }
         #endregion
 
         #region Typography
         /// <summary>
-        /// Make a paragraph using the lead class to make it stand out.
+        /// Makes a paragraph using the lead class to make it stand out.
         /// </summary>
         /// <param name="text">Content of the paragraph</param>
-        public static MvcHtmlString LeadBody(string text)
+        public MvcHtmlString LeadBody(string text)
         {
             var p = new TagBuilder("p");
             p.AddCssClass("lead");
@@ -40,29 +44,29 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Create an emphasized paragraph
+        /// Creates an emphasized paragraph
         /// </summary>
         /// <param name="text">Content of the emphasized paragraph</param>
         /// <param name="emphasisType">Type of the emphasis</param>
-        public static MvcHtmlString EmphasizedParagraph(string text, Emphasis emphasisType)
+        public MvcHtmlString EmphasizedParagraph(string text, EmphasisType emphasisType)
         {
             var p = new TagBuilder("p");
 
             switch (emphasisType)
             {
-                case Emphasis.Muted:
+                case EmphasisType.Muted:
                     p.AddCssClass("muted");
                     break;
-                case Emphasis.Warning:
+                case EmphasisType.Warning:
                     p.AddCssClass("text-warning");
                     break;
-                case Emphasis.Error:
+                case EmphasisType.Error:
                     p.AddCssClass("text-error");
                     break;
-                case Emphasis.Info:
+                case EmphasisType.Info:
                     p.AddCssClass("text-info");
                     break;
-                case Emphasis.Success:
+                case EmphasisType.Success:
                     p.AddCssClass("text-success");
                     break;
                 default:
@@ -74,22 +78,22 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Create an HTML abbreviation with it's corresponding definition.
+        /// Creates an HTML abbreviation with it's corresponding definition.
         /// </summary>
         /// <param name="title">Definition of the abbreaviation.</param>
         /// <param name="value">The abbreviation.</param>
-        public static MvcHtmlString Abbreviation(string title, string value)
+        public MvcHtmlString Abbreviation(string title, string value)
         {
             return Abbreviation(title, value, false);
         }
 
         /// <summary>
-        /// Create an HTML abbreviation with it's corresponding definition.
+        /// Creates an HTML abbreviation with it's corresponding definition.
         /// </summary>
         /// <param name="title">Definition of the abbreaviation.</param>
         /// <param name="value">The abbreviation.</param>
         /// <param name="isReduced">Defines if the abbreviation uses the initialism class for a slightly smaller font-size.</param>
-        public static MvcHtmlString Abbreviation(string title, string value, bool isReduced)
+        public MvcHtmlString Abbreviation(string title, string value, bool isReduced)
         {
             var abbr = new TagBuilder("abbr");
             if (isReduced)
@@ -107,7 +111,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="author">The author.</param>
         /// <param name="source">The source.</param>
         /// <param name="sourceTitle">The source title.</param>
-        public static MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle)
+        public MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle)
         {
             return Blockquote(quote, author, source, sourceTitle, false);
         }
@@ -120,7 +124,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="source">The source.</param>
         /// <param name="sourceTitle">The source title.</param>
         /// <param name="isPulledRight">Set to true for a floated, right-aligned blockquote.</param>
-        public static MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
+        public MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
         {
             var cite = new TagBuilder("cite");
             cite.MergeAttribute("title", sourceTitle);
@@ -141,25 +145,25 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Begin a new list tag
+        /// Begins a new list tag
         /// </summary>
         /// <param name="listType">Type of the desired list.</param>
         /// <returns></returns>
         public BootstrapMvcList BeginList(ListType listType)
         {
-            var list = new BootstrapMvcList(_helper.ViewContext);
+            var list = new BootstrapMvcList(_html.ViewContext);
             list.BeginList(listType);
 
             return list;
         }
 
         /// <summary>
-        /// A list of terms with their associated descriptions.
+        /// Creates a list of terms with their associated descriptions.
         /// </summary>
         /// <param name="isHorizontal">Make terms and descriptions in dl line up side-by-side.</param>
         public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
         {
-            var list = new BootstrapMvcList(_helper.ViewContext);
+            var list = new BootstrapMvcList(_html.ViewContext);
             list.BeginDescriptionList(isHorizontal);
 
             return list;
@@ -170,7 +174,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         /// <param name="listType">The type of the list.</param>
         /// <param name="elements">The elements of the list.</param>
-        public static MvcHtmlString List(ListType listType, IEnumerable<string> elements)
+        public MvcHtmlString List(ListType listType, IEnumerable<string> elements)
         {
             var root = BootstrapMvcList.GetRootTagBuilder(listType);
 
@@ -190,7 +194,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         /// <param name="isHorizontal">Make terms and descriptions in line up side-by-side.</param>
         /// <param name="elements">The dictionary of descriptions by title (key) and description (value).</param>
-        public static MvcHtmlString DescriptionList(bool isHorizontal, IDictionary<string, string> elements)
+        public MvcHtmlString DescriptionList(bool isHorizontal, IDictionary<string, string> elements)
         {
             if (elements == null)
                 return null;
@@ -211,45 +215,45 @@ namespace ExtraMvcExtension.Bootstrap
 
         #region Buttons
 
-        private static TagBuilderExt CreateBaseButton(string tagName, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
+        private TagBuilderExt CreateBaseButton(string tagName, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
         {
             var tag = new TagBuilderExt(tagName);
             tag.AddCssClass("btn");
 
             switch (buttonStyle)
             {
-                case ButtonStyles.Primary:
+                case ButtonStyle.Primary:
                     tag.AddCssClass("btn-primary");
                     break;
-                case ButtonStyles.Info:
+                case ButtonStyle.Info:
                     tag.AddCssClass("btn-info");
                     break;
-                case ButtonStyles.Success:
+                case ButtonStyle.Success:
                     tag.AddCssClass("btn-success");
                     break;
-                case ButtonStyles.Warning:
+                case ButtonStyle.Warning:
                     tag.AddCssClass("btn-warning");
                     break;
-                case ButtonStyles.Danger:
+                case ButtonStyle.Danger:
                     tag.AddCssClass("btn-danger");
                     break;
-                case ButtonStyles.Inverse:
+                case ButtonStyle.Inverse:
                     tag.AddCssClass("btn-inverse");
                     break;
-                case ButtonStyles.Link:
+                case ButtonStyle.Link:
                     tag.AddCssClass("btn-link");
                     break;
             }
 
             switch (buttonSize)
             {
-                case ButtonSizes.Large:
+                case ButtonSize.Large:
                     tag.AddCssClass("btn-large");
                     break;
-                case ButtonSizes.Small:
+                case ButtonSize.Small:
                     tag.AddCssClass("btn-small");
                     break;
-                case ButtonSizes.Mini:
+                case ButtonSize.Mini:
                     tag.AddCssClass("btn-mini");
                     break;
             }
@@ -270,7 +274,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="buttonType">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
-        public static MvcHtmlString LinkButton(string text, string href, ButtonStyles buttonType, ButtonSizes buttonSize, bool isDisabled)
+        public MvcHtmlString LinkButton(string text, string href, ButtonStyle buttonType, ButtonSize buttonSize, bool isDisabled)
         {
             var tag = CreateBaseButton("a", buttonType, buttonSize, isDisabled);
             tag.SetInnerText(text);
@@ -283,9 +287,9 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="href">Link destination.</param>
-        public static MvcHtmlString LinkButton(string text, string href)
+        public MvcHtmlString LinkButton(string text, string href)
         {
-            return LinkButton(text, href, ButtonStyles.Default, ButtonSizes.Default, false);
+            return LinkButton(text, href, ButtonStyle.Default, ButtonSize.Default, false);
         }
         #endregion
 
@@ -297,7 +301,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
-        public static MvcHtmlString SubmitButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
+        public MvcHtmlString SubmitButton(string text, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
         {
             var tag = CreateBaseButton("button", buttonStyle, buttonSize, isDisabled);
             tag.MergeAttribute("type", "submit");
@@ -309,9 +313,9 @@ namespace ExtraMvcExtension.Bootstrap
         /// Creates a submit button tag with a default style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
-        public static MvcHtmlString SubmitButton(string text)
+        public MvcHtmlString SubmitButton(string text)
         {
-            return SubmitButton(text, ButtonStyles.Default, ButtonSizes.Default, false);
+            return SubmitButton(text, ButtonStyle.Default, ButtonSize.Default, false);
         }
         #endregion
 
@@ -323,7 +327,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
-        public static MvcHtmlString InputButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
+        public MvcHtmlString InputButton(string text, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
         {
             var tag = CreateBaseButton("input", buttonStyle, buttonSize, isDisabled);
             tag.MergeAttribute("type", "button");
@@ -335,9 +339,9 @@ namespace ExtraMvcExtension.Bootstrap
         /// Creates an input button tag with a default style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
-        public static MvcHtmlString InputButton(string text)
+        public MvcHtmlString InputButton(string text)
         {
-            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default, false);
+            var tag = CreateBaseButton("input", ButtonStyle.Default, ButtonSize.Default, false);
             tag.MergeAttribute("type", "button");
             tag.SetInnerText(text);
 
@@ -353,7 +357,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">Make buttons look unclickable by fading them back 50%. True to disable, False to enable.</param>
-        public static MvcHtmlString InputSubmitButton(string text, ButtonStyles buttonStyle, ButtonSizes buttonSize, bool isDisabled)
+        public MvcHtmlString InputSubmitButton(string text, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
         {
             var tag = CreateBaseButton("input", buttonStyle, buttonSize, isDisabled);
             tag.MergeAttribute("type", "submit");
@@ -365,9 +369,9 @@ namespace ExtraMvcExtension.Bootstrap
         /// Creates an input submit button tag with a default style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
-        public static MvcHtmlString InputSubmitButton(string text)
+        public MvcHtmlString InputSubmitButton(string text)
         {
-            var tag = CreateBaseButton("input", ButtonStyles.Default, ButtonSizes.Default, false);
+            var tag = CreateBaseButton("input", ButtonStyle.Default, ButtonSize.Default, false);
             tag.MergeAttribute("type", "submit");
             tag.SetInnerText(text);
 
@@ -384,7 +388,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="source">the url for the image</param>
         /// <param name="alt">alternate text for the image</param>
         /// <param name="imageType">type of image</param>
-        public static MvcHtmlString Image(string source, string alt, ImageType imageType)
+        public MvcHtmlString Image(string source, string alt, ImageType imageType)
         {
             var img = new TagBuilder("img");
             img.MergeAttribute("alt", alt);
@@ -413,10 +417,169 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         /// <param name="source">url and alternate text</param>
         /// <param name="imageType">type of image</param>
-        public static MvcHtmlString Image(string source, ImageType imageType)
+        public MvcHtmlString Image(string source, ImageType imageType)
         {
             return Image(source, source, imageType);
         }
+        #endregion
+
+        #region Menu
+
+        /// <summary>
+        /// Creates a basic default menu (navbar) that can contains menu componenents.
+        /// </summary>
+        public BootstrapMvcMenu BeginMenu()
+        {
+            return BeginMenu(MenuType.Basic, false);
+        }
+
+        /// <summary>
+        /// Creates a menu (navbar) that can contains menu componenents.
+        /// </summary>
+        /// <param name="menuType">The menu type</param>
+        public BootstrapMvcMenu BeginMenu(MenuType menuType)
+        {
+            return BeginMenu(menuType, false);
+        }
+        /// <summary>
+        /// Creates a menu (navbar) that can contains menu componenents.
+        /// </summary>
+        /// <param name="menuType">The menu type</param>
+        /// <param name="isInversed">Reverse the navbar colors: True to reverse, False (default) for normal.</param>
+        public BootstrapMvcMenu BeginMenu(MenuType menuType, bool isInversed)
+        {
+            var menu = new BootstrapMvcMenu(_html.ViewContext);
+            menu.BeginMenu(menuType, isInversed);
+            return menu;
+        }
+
+        /// <summary>
+        /// Creates a menu title (have to be used inside a navbar menu).
+        /// </summary>
+        /// <param name="title">Title of the menu</param>
+        /// <param name="action">The name of the a action</param>
+        /// <param name="controller">The name of the controller</param>
+        /// <param name="routeValues">An object that contains the parameters for a route.
+        /// The parameters are retrieved through reflection by examining the properties of the object.
+        /// The object is typically created by using object initializer syntax.</param>
+        public MvcHtmlString MenuTitle(string title, string action, string controller, object routeValues)
+        {
+            return MenuTitle(title, _url.Action(action, controller, routeValues));
+        }
+
+        /// <summary>
+        /// Creates a menu title (have to be used inside a navbar menu).
+        /// </summary>
+        /// <param name="title">Title of the menu</param>
+        /// <param name="action">The action name</param>
+        /// <param name="controller">The controller name</param>
+        public MvcHtmlString MenuTitle(string title, string action, string controller)
+        {
+            return MenuTitle(title, _url.Action(action, controller));
+        }
+
+        /// <summary>
+        /// Creates a menu title (have to be used inside a navbar menu).
+        /// </summary>
+        /// <param name="title">Title of the menu</param>
+        /// <param name="url">A Fully quallified URL</param>
+        public MvcHtmlString MenuTitle(string title, string url)
+        {
+            var a = new TagBuilderExt("a", title);
+            a.AddCssClass("brand");
+            a.MergeAttribute("href", url);
+
+            return new MvcHtmlString(a.ToString());
+        }
+
+        /// <summary>
+        /// Begins a menu items container.
+        /// </summary>
+        public BootstrapMvcMenuItemsContainer BeginMenuItems()
+        {
+            var menuItems = new BootstrapMvcMenuItemsContainer(_html.ViewContext);
+            menuItems.BeginMenuItems();
+
+            return menuItems;
+        }
+
+        /// <summary>
+        /// Creates one menu item entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the menu item</param>
+        /// <param name="action">The name of the action</param>
+        /// <param name="controller">The name of the controller</param>
+        /// <param name="routeValues">An object that contains the parameters for a route.
+        /// The parameters are retrieved through reflection by examining the properties of the object.
+        /// The object is typically created by using object initializer syntax.</param>
+        /// <param name="isActive">Defines if the link have an active (selected) style or not: True to apply the active style, False for normal style.</param>
+        public MvcHtmlString MenuItem(string title, string action, string controller, object routeValues, bool isActive)
+        {
+            return MenuItem(title, _url.Action(action, controller, routeValues), isActive);
+        }
+
+        /// <summary>
+        /// Creates one menu item entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the menu item</param>
+        /// <param name="action">The name of the action</param>
+        /// <param name="controller">The name of the controller</param>
+        /// <param name="routeValues">An object that contains the parameters for a route.
+        /// The parameters are retrieved through reflection by examining the properties of the object.
+        /// The object is typically created by using object initializer syntax.</param>
+        public MvcHtmlString MenuItem(string title, string action, string controller, object routeValues)
+        {
+            return MenuItem(title, _url.Action(action, controller, routeValues), false);
+        }
+        /// <summary>
+        /// Creates one menu item entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the menu item</param>
+        /// <param name="action">The name of the action</param>
+        /// <param name="controller">The name of the controller</param>
+        /// <param name="isActive">Defines if the link have an active (selected) style or not: True to apply the active style, False for normal style.</param>
+        public MvcHtmlString MenuItem(string title, string action, string controller, bool isActive)
+        {
+            return MenuItem(title, _url.Action(action, controller), isActive);
+        }
+        /// <summary>
+        /// Creates one menu item entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the menu item</param>
+        /// <param name="action">The name of the action</param>
+        /// <param name="controller">The name of the controller</param>
+        public MvcHtmlString MenuItem(string title, string action, string controller)
+        {
+            return MenuItem(title, _url.Action(action, controller), false);
+        }
+        /// <summary>
+        /// Creates one menu item entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the menu item</param>
+        /// <param name="url">The fully quallified URL</param>
+        /// <param name="isActive">Defines if the link have an active (selected) style or not: True to apply the active style, False for normal style.</param>
+        public MvcHtmlString MenuItem(string title, string url, bool isActive)
+        {
+            var listItem = new TagBuilderExt("li");
+            if (isActive)
+                listItem.AddCssClass("active");
+            var link = new TagBuilderExt("a");
+            link.MergeAttribute("href", url);
+            link.SetInnerText(title);
+            listItem.AddChildTag(link);
+
+            return new MvcHtmlString(listItem.ToString());
+        }
+        /// <summary>
+        /// Creates one menu item entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the menu item</param>
+        /// <param name="url">The fully quallified URL</param>
+        public MvcHtmlString MenuItem(string title, string url)
+        {
+            return MenuItem(title, url, false);
+        }
+
         #endregion
     }
 }
