@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ExtraMvcExtension.Bootstrap.BootstrapModels;
 using ExtraMvcExtension.Bootstrap.Enums;
 
 namespace ExtraMvcExtension.Bootstrap
@@ -36,11 +37,11 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="text">Content of the paragraph</param>
         public MvcHtmlString LeadBody(string text)
         {
-            var p = new TagBuilder("p");
+            var p = new TagBuilderExt("p");
             p.AddCssClass("lead");
             p.SetInnerText(text);
 
-            return MvcHtmlString.Create(p.ToString());
+            return p.ToMvcHtmlString();
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="emphasisType">Type of the emphasis</param>
         public MvcHtmlString EmphasizedParagraph(string text, EmphasisType emphasisType)
         {
-            var p = new TagBuilder("p");
+            var p = new TagBuilderExt("p");
 
             switch (emphasisType)
             {
@@ -74,7 +75,7 @@ namespace ExtraMvcExtension.Bootstrap
             }
 
             p.SetInnerText(text);
-            return MvcHtmlString.Create(p.ToString());
+            return p.ToMvcHtmlString();
         }
 
         /// <summary>
@@ -86,7 +87,6 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return Abbreviation(title, value, false);
         }
-
         /// <summary>
         /// Creates an HTML abbreviation with it's corresponding definition.
         /// </summary>
@@ -115,7 +115,6 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return Blockquote(quote, author, source, sourceTitle, false);
         }
-
         /// <summary>
         /// Creates an HTML blockquote.
         /// </summary>
@@ -126,22 +125,20 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="isPulledRight">Set to true for a floated, right-aligned blockquote.</param>
         public MvcHtmlString Blockquote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
         {
-            var cite = new TagBuilder("cite");
+            var cite = new TagBuilderExt("cite", source);
             cite.MergeAttribute("title", sourceTitle);
-            cite.SetInnerText(source);
 
-            var small = new TagBuilder("small") { InnerHtml = String.Concat(author, " ", cite.ToString()) };
+            var small = new TagBuilderExt("small") { InnerHtml = String.Concat(author, " ", cite.ToString()) };
 
-            var p = new TagBuilder("p");
-            p.SetInnerText(quote);
+            var p = new TagBuilderExt("p", quote);
 
-            var blockquote = new TagBuilder("blockquote");
+            var blockquote = new TagBuilderExt("blockquote");
             if (isPulledRight)
                 blockquote.AddCssClass("pull-right");
 
             blockquote.InnerHtml = String.Concat(p.ToString(), small.ToString());
 
-            return MvcHtmlString.Create(blockquote.ToString());
+            return blockquote.ToMvcHtmlString();
         }
 
         /// <summary>
@@ -156,19 +153,6 @@ namespace ExtraMvcExtension.Bootstrap
 
             return list;
         }
-
-        /// <summary>
-        /// Creates a list of terms with their associated descriptions.
-        /// </summary>
-        /// <param name="isHorizontal">Make terms and descriptions in dl line up side-by-side.</param>
-        public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
-        {
-            var list = new BootstrapMvcList(_html.ViewContext);
-            list.BeginDescriptionList(isHorizontal);
-
-            return list;
-        }
-
         /// <summary>
         /// Creates a list with the associated elements.
         /// </summary>
@@ -186,9 +170,20 @@ namespace ExtraMvcExtension.Bootstrap
                 root.AddChildTag(new TagBuilderExt("li", element));
             }
 
-            return MvcHtmlString.Create(root.ToString());
+            return root.ToMvcHtmlString();
         }
 
+        /// <summary>
+        /// Creates a list of terms with their associated descriptions.
+        /// </summary>
+        /// <param name="isHorizontal">Make terms and descriptions in dl line up side-by-side.</param>
+        public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
+        {
+            var list = new BootstrapMvcList(_html.ViewContext);
+            list.BeginDescriptionList(isHorizontal);
+
+            return list;
+        }
         /// <summary>
         /// Creates a description list with the associated descriptions
         /// </summary>
@@ -209,7 +204,7 @@ namespace ExtraMvcExtension.Bootstrap
                 root.AddChildTag(new TagBuilderExt("dd", element.Value));
             }
 
-            return MvcHtmlString.Create(root.ToString());
+            return root.ToMvcHtmlString();
         }
         #endregion
 
@@ -280,7 +275,7 @@ namespace ExtraMvcExtension.Bootstrap
             tag.SetInnerText(text);
             tag.MergeAttribute("href", href);
 
-            return new MvcHtmlString(tag.ToString());
+            return tag.ToMvcHtmlString();
         }
         /// <summary>
         /// Creates an "a" tag with a default button style and size.
@@ -390,7 +385,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="imageType">type of image</param>
         public MvcHtmlString Image(string source, string alt, ImageType imageType)
         {
-            var img = new TagBuilder("img");
+            var img = new TagBuilderExt("img");
             img.MergeAttribute("alt", alt);
             img.MergeAttribute("src", source);
 
@@ -409,9 +404,8 @@ namespace ExtraMvcExtension.Bootstrap
                     throw new ArgumentOutOfRangeException("imageType");
             }
 
-            return MvcHtmlString.Create(img.ToString());
+            return img.ToMvcHtmlString();
         }
-
         /// <summary>
         /// Define an Image(source as the alternate text). 
         /// </summary>
@@ -432,7 +426,6 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return BeginMenu(MenuType.Basic, false);
         }
-
         /// <summary>
         /// Creates a menu (navbar) that can contains menu componenents.
         /// </summary>
@@ -466,7 +459,6 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return MenuTitle(title, _url.Action(action, controller, routeValues));
         }
-
         /// <summary>
         /// Creates a menu title (have to be used inside a navbar menu).
         /// </summary>
@@ -477,7 +469,6 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return MenuTitle(title, _url.Action(action, controller));
         }
-
         /// <summary>
         /// Creates a menu title (have to be used inside a navbar menu).
         /// </summary>
@@ -489,7 +480,7 @@ namespace ExtraMvcExtension.Bootstrap
             a.AddCssClass("brand");
             a.MergeAttribute("href", url);
 
-            return new MvcHtmlString(a.ToString());
+            return a.ToMvcHtmlString();
         }
 
         /// <summary>
@@ -517,7 +508,6 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return MenuItem(title, _url.Action(action, controller, routeValues), isActive);
         }
-
         /// <summary>
         /// Creates one menu item entry with the specified title and link.
         /// </summary>
@@ -568,7 +558,7 @@ namespace ExtraMvcExtension.Bootstrap
             link.SetInnerText(title);
             listItem.AddChildTag(link);
 
-            return new MvcHtmlString(listItem.ToString());
+            return listItem.ToMvcHtmlString();
         }
         /// <summary>
         /// Creates one menu item entry with the specified title and link.
@@ -579,6 +569,18 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return MenuItem(title, url, false);
         }
+
+        /// <summary>
+        /// Creates a vertical menu-item separator
+        /// </summary>
+        public MvcHtmlString MenuItemSeparator()
+        {
+            var tag = new TagBuilderExt("li");
+            tag.AddCssClass("divider-vertical");
+
+            return tag.ToMvcHtmlString();
+        }
+
 
         #endregion
     }

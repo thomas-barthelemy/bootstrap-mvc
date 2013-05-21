@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Web.Mvc;
-using ExtraMvcExtension.Bootstrap.Enums;
 
-namespace ExtraMvcExtension.Bootstrap
+namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 {
     public class BootstrapMvcMenuItemsContainer : IDisposable
     {

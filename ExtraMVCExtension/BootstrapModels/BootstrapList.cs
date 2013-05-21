@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Web.Mvc;
 using ExtraMvcExtension.Bootstrap.Enums;
 
-namespace ExtraMvcExtension.Bootstrap
+namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 {
     /// <summary>
     /// Represents a Boostrap list element in an MVC view.

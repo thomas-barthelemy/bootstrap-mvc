@@ -1,6 +1,6 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 
-namespace ExtraMvcExtension.Bootstrap
+namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 {
     /// <summary>
     /// Represents an MVC web page with an included Bootstrap HTML helper.

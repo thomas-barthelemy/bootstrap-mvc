@@ -77,6 +77,23 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
+        /// Renders HTML code for the tag as an MvcHtmlString.
+        /// </summary>
+        public MvcHtmlString ToMvcHtmlString()
+        {
+            return ToMvcHtmlString(TagRenderMode.Normal);
+        }
+
+        /// <summary>
+        /// Renders HTML code for the tag as an MvcHtmlString.
+        /// </summary>
+        /// <param name="tagRenderMode">Rendering mode used to create the HTML code.</param>
+        public MvcHtmlString ToMvcHtmlString(TagRenderMode tagRenderMode)
+        {
+            return new MvcHtmlString(ToString(tagRenderMode));
+        }
+
+        /// <summary>
         /// Renders HTML code for the tag.
         /// </summary>
         /// <param name="tagRenderMode">Rendering mode used to create the HTML code.</param>
