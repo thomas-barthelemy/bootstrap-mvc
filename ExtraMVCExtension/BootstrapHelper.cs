@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using ExtraMvcExtension.Bootstrap.BootstrapModels;
 using ExtraMvcExtension.Bootstrap.Enums;
+using System.Linq;
 
 namespace ExtraMvcExtension.Bootstrap
 {
@@ -15,7 +15,7 @@ namespace ExtraMvcExtension.Bootstrap
         #region Fields
         private readonly HtmlHelper _html;
         private readonly UrlHelper _url;
-
+        private readonly BootstrapMvcPage _page;
         #endregion
 
         #region Constructors
@@ -23,10 +23,20 @@ namespace ExtraMvcExtension.Bootstrap
         /// Creates a new instance of the Bootstrap helper.
         /// </summary>
         /// <param name="page">The current view</param>
-        public BootstrapHelper(WebViewPage page)
+        public BootstrapHelper(BootstrapMvcPage page)
         {
+            _page = page;
             _html = page.Html;
             _url = page.Url;
+        }
+        #endregion
+
+        #region Internal Helpers
+        internal bool IsCurrentUrl(string url)
+        {
+            var currentUrl = _html.ViewContext.RequestContext.HttpContext.Request.Url;
+            if (currentUrl == null) return false;
+            return currentUrl.AbsoluteUri.Equals(url) || currentUrl.AbsolutePath.Equals(url);
         }
         #endregion
 
@@ -418,22 +428,6 @@ namespace ExtraMvcExtension.Bootstrap
         #endregion
 
         #region Menu
-
-        /// <summary>
-        /// Creates a basic default menu (navbar) that can contains menu componenents.
-        /// </summary>
-        public BootstrapMvcMenu BeginMenu()
-        {
-            return BeginMenu(MenuType.Basic, false);
-        }
-        /// <summary>
-        /// Creates a menu (navbar) that can contains menu componenents.
-        /// </summary>
-        /// <param name="menuType">The menu type</param>
-        public BootstrapMvcMenu BeginMenu(MenuType menuType)
-        {
-            return BeginMenu(menuType, false);
-        }
         /// <summary>
         /// Creates a menu (navbar) that can contains menu componenents.
         /// </summary>
@@ -445,6 +439,23 @@ namespace ExtraMvcExtension.Bootstrap
             menu.BeginMenu(menuType, isInversed);
             return menu;
         }
+        /// <summary>
+        /// Creates a menu (navbar) that can contains menu componenents.
+        /// </summary>
+        /// <param name="menuType">The menu type</param>
+        public BootstrapMvcMenu BeginMenu(MenuType menuType)
+        {
+            return BeginMenu(menuType, false);
+        }
+        /// <summary>
+        /// Creates a basic default menu (navbar) that can contains menu componenents.
+        /// </summary>
+        public BootstrapMvcMenu BeginMenu()
+        {
+            return BeginMenu(MenuType.Basic, false);
+        }
+
+
 
         /// <summary>
         /// Creates a menu title (have to be used inside a navbar menu).
@@ -495,63 +506,37 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Creates one menu item entry with the specified title and link.
+        /// Creates one menu link entry with the specified title and link.
         /// </summary>
-        /// <param name="title">The title of the menu item</param>
+        /// <param name="title">The title of the menu link</param>
         /// <param name="action">The name of the action</param>
         /// <param name="controller">The name of the controller</param>
         /// <param name="routeValues">An object that contains the parameters for a route.
         /// The parameters are retrieved through reflection by examining the properties of the object.
         /// The object is typically created by using object initializer syntax.</param>
-        /// <param name="isActive">Defines if the link have an active (selected) style or not: True to apply the active style, False for normal style.</param>
-        public MvcHtmlString MenuItem(string title, string action, string controller, object routeValues, bool isActive)
+        public MvcHtmlString MenuLink(string title, string action, string controller, object routeValues)
         {
-            return MenuItem(title, _url.Action(action, controller, routeValues), isActive);
+            return MenuLink(title, _url.Action(action, controller, routeValues));
         }
         /// <summary>
-        /// Creates one menu item entry with the specified title and link.
+        /// Creates one menu link entry with the specified title and link.
         /// </summary>
-        /// <param name="title">The title of the menu item</param>
+        /// <param name="title">The title of the menu link</param>
         /// <param name="action">The name of the action</param>
         /// <param name="controller">The name of the controller</param>
-        /// <param name="routeValues">An object that contains the parameters for a route.
-        /// The parameters are retrieved through reflection by examining the properties of the object.
-        /// The object is typically created by using object initializer syntax.</param>
-        public MvcHtmlString MenuItem(string title, string action, string controller, object routeValues)
+        public MvcHtmlString MenuLink(string title, string action, string controller)
         {
-            return MenuItem(title, _url.Action(action, controller, routeValues), false);
+            return MenuLink(title, _url.Action(action, controller));
         }
         /// <summary>
-        /// Creates one menu item entry with the specified title and link.
+        /// Creates one menu link entry with the specified title and link.
         /// </summary>
-        /// <param name="title">The title of the menu item</param>
-        /// <param name="action">The name of the action</param>
-        /// <param name="controller">The name of the controller</param>
-        /// <param name="isActive">Defines if the link have an active (selected) style or not: True to apply the active style, False for normal style.</param>
-        public MvcHtmlString MenuItem(string title, string action, string controller, bool isActive)
-        {
-            return MenuItem(title, _url.Action(action, controller), isActive);
-        }
-        /// <summary>
-        /// Creates one menu item entry with the specified title and link.
-        /// </summary>
-        /// <param name="title">The title of the menu item</param>
-        /// <param name="action">The name of the action</param>
-        /// <param name="controller">The name of the controller</param>
-        public MvcHtmlString MenuItem(string title, string action, string controller)
-        {
-            return MenuItem(title, _url.Action(action, controller), false);
-        }
-        /// <summary>
-        /// Creates one menu item entry with the specified title and link.
-        /// </summary>
-        /// <param name="title">The title of the menu item</param>
+        /// <param name="title">The title of the menu link</param>
         /// <param name="url">The fully quallified URL</param>
-        /// <param name="isActive">Defines if the link have an active (selected) style or not: True to apply the active style, False for normal style.</param>
-        public MvcHtmlString MenuItem(string title, string url, bool isActive)
+        public MvcHtmlString MenuLink(string title, string url)
         {
             var listItem = new TagBuilderExt("li");
-            if (isActive)
+            if (IsCurrentUrl(url))
                 listItem.AddCssClass("active");
             var link = new TagBuilderExt("a");
             link.MergeAttribute("href", url);
@@ -560,15 +545,7 @@ namespace ExtraMvcExtension.Bootstrap
 
             return listItem.ToMvcHtmlString();
         }
-        /// <summary>
-        /// Creates one menu item entry with the specified title and link.
-        /// </summary>
-        /// <param name="title">The title of the menu item</param>
-        /// <param name="url">The fully quallified URL</param>
-        public MvcHtmlString MenuItem(string title, string url)
-        {
-            return MenuItem(title, url, false);
-        }
+
 
         /// <summary>
         /// Creates a vertical menu-item separator
@@ -581,7 +558,136 @@ namespace ExtraMvcExtension.Bootstrap
             return tag.ToMvcHtmlString();
         }
 
+        /// <summary>
+        /// Begins a menu form. Have to be used inside a Bootstrap MVC Menu.
+        /// </summary>
+        /// <param name="formType">The form type</param>
+        /// <param name="horizontalAlignment">The horizontal alignment applied on the form</param>
+        public BootstrapMenuForm BeginMenuForm(FormType formType, HorizontalAlignment horizontalAlignment)
+        {
+            var menuForm = new BootstrapMenuForm(_html.ViewContext);
+            menuForm.BeginList(formType, horizontalAlignment);
+            return menuForm;
+        }
+        /// <summary>
+        /// Begins a default menu form. Have to be used inside a Bootstrap MVC Menu.
+        /// </summary>
+        /// <param name="horizontalAlignment">The horizontal alignment applied on the form</param>
+        public BootstrapMenuForm BeginMenuForm(HorizontalAlignment horizontalAlignment)
+        {
+            return BeginMenuForm(FormType.Default, horizontalAlignment);
+        }
+        /// <summary>
+        /// Begins a menu form with a default left alignment. Have to be used inside a Bootstrap MVC Menu.
+        /// </summary>
+        /// <param name="formType">The form type</param>
+        public BootstrapMenuForm BeginMenuForm(FormType formType)
+        {
+            return BeginMenuForm(formType, HorizontalAlignment.Left);
 
+        }
+        /// <summary>
+        /// Begins a default menu form with a default left alignment. Have to be used inside a Bootstrap MVC Menu.
+        /// </summary>
+        public BootstrapMenuForm BeginMenuForm()
+        {
+            return BeginMenuForm(FormType.Default, HorizontalAlignment.Left);
+        }
+        #endregion
+
+        #region Breadcrumbs
+        /// <summary>
+        /// Begins a breadcrumbs container that can be filled with breadcrumb links.
+        /// </summary>
+        /// <returns></returns>
+        public BootstrapBreadcrumb BeginBreadCrumb()
+        {
+            var breadCrumb = new BootstrapBreadcrumb(_html.ViewContext);
+            breadCrumb.BeginBreadcrumb();
+            return breadCrumb;
+        }
+
+        /// <summary>
+        /// Creates an automatic breadcrumb based on the navigation history.
+        /// </summary>
+        /// <param name="maximumElements">The maximum number of breadcrumbs to be displayed.</param>
+        /// <param name="divider">The divider used between breadcrumbs.</param>
+        /// <returns></returns>
+        public MvcHtmlString Breadcrumb(int maximumElements, string divider)
+        {
+            var breadcrumbTag = new TagBuilderExt("ul");
+            breadcrumbTag.AddCssClass("breadcrumb");
+            var navHistory = _page.NavigationHistory.ToArray();
+
+            var linksToDisplay = navHistory.Skip(Math.Max(0, navHistory.Count() - maximumElements)).Take(maximumElements);
+            var visitedPages = linksToDisplay as IList<VisitedPage> ?? linksToDisplay.ToList();
+            var lastElement = visitedPages.Last();
+            foreach (var visitedPage in visitedPages)
+            {
+                if (visitedPage == lastElement)
+                    divider = null;
+                breadcrumbTag.InnerHtml += BreadcrumbLink(visitedPage.Title, visitedPage.Uri.AbsoluteUri, divider);
+            }
+
+            return breadcrumbTag.ToMvcHtmlString();
+        }
+
+        /// <summary>
+        /// Creates one breadcrumb link entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the breadcrumb link</param>
+        /// <param name="action">The name of the action</param>
+        /// <param name="controller">The name of the controller</param>
+        /// <param name="routeValues">An object that contains the parameters for a route.
+        /// The parameters are retrieved through reflection by examining the properties of the object.
+        /// The object is typically created by using object initializer syntax.</param>
+        /// <param name="divider">Specify the divider created after the link. Set to "null" or empty for no divider.</param>
+        public MvcHtmlString BreadcrumbLink(string title, string action, string controller, object routeValues, string divider)
+        {
+            return BreadcrumbLink(title, _url.Action(action, controller, routeValues), divider);
+        }
+        /// <summary>
+        /// Creates one breadcrumb link entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the breadcrumb link</param>
+        /// <param name="action">The name of the action</param>
+        /// <param name="controller">The name of the controller</param>
+        /// <param name="divider">Specify the divider created after the link. Set to "null" or empty for no divider.</param>
+        public MvcHtmlString BreadcrumbLink(string title, string action, string controller, string divider)
+        {
+            return BreadcrumbLink(title, _url.Action(action, controller), divider);
+        }
+        /// <summary>
+        /// Creates one breadcrumb link entry with the specified title and link.
+        /// </summary>
+        /// <param name="title">The title of the breadcrumb link</param>
+        /// <param name="url">The fully quallified URL</param>
+        /// <param name="divider">Specify the divider created after the link. Set to "null" or empty for no divider.</param>
+        public MvcHtmlString BreadcrumbLink(string title, string url, string divider)
+        {
+            var listItem = new TagBuilderExt("li");
+
+            if (IsCurrentUrl(url))
+            {
+                listItem.AddCssClass("active");
+                listItem.SetInnerText(title);
+            }
+            else
+            {
+                var link = new TagBuilderExt("a");
+                link.MergeAttribute("href", url);
+                link.SetInnerText(title);
+                listItem.AddChildTag(link);
+            }
+
+            if (!string.IsNullOrEmpty(divider))
+            {
+                var dividerTag = new TagBuilderExt("span", divider);
+                dividerTag.AddCssClass("divider");
+                listItem.AddChildTag(dividerTag);
+            }
+            return listItem.ToMvcHtmlString();
+        }
         #endregion
     }
 }

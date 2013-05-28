@@ -50,10 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootstrapHelper.cs" />
+    <Compile Include="BootstrapModels\BootstrapBreadcrumb.cs" />
     <Compile Include="BootstrapModels\BootstrapList.cs" />
     <Compile Include="BootstrapModels\BootstrapMenuItemContainer.cs" />
     <Compile Include="BootstrapModels\BootstrapMvcMenu.cs" />
     <Compile Include="BootstrapModels\BootstrapMvcPage.cs" />
+    <Compile Include="BootstrapModels\BootstrapMenuForm.cs" />
     <Compile Include="Enums\Buttons.cs" />
     <Compile Include="Enums\Forms.cs" />
     <Compile Include="Enums\Images.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Enums\Typography.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagBuilderExt.cs" />
+    <Compile Include="VisitedPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
