@@ -1,5 +1,4 @@
 ﻿@using ExtraMvcExtension.Bootstrap.Enums
-@using ExtraMvcExtension.Bootstrap
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,12 +13,23 @@
     {
         @Bootstrap.MenuTitle("My Title", "Index", "Home")
 
-        using(Bootstrap.BeginMenuItems())
+        using (Bootstrap.BeginMenuItems())
         {
-            @Bootstrap.MenuItem("My Menu 1", "MenuOne", "Home")
-            @Bootstrap.MenuItem("My Menu 2", "MenuTwo", "Home")
+        @Bootstrap.MenuLink("Home", "Index", "Home")
+        @Bootstrap.MenuLink("My Menu 1", "MenuOne", "Home")
+        @Bootstrap.MenuLink("My Menu 2", "MenuTwo", "Home")
         }
     }
+
+    <h2>Manual Breadcrumb</h2>
+    @using (Bootstrap.BeginBreadCrumb())
+    {
+        @Bootstrap.BreadcrumbLink("Home", "Index", "Home", "/")
+        @Bootstrap.BreadcrumbLink("Menu 1", "MenuOne", "Home", null)
+    }
+    
+    <h2>Automatic Breadcrumb</h2>
+    @Bootstrap.Breadcrumb(5, "/")
 
     @RenderBody()
 

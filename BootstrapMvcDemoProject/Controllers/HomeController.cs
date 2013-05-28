@@ -16,5 +16,14 @@ namespace BootstrapMvcDemoProject.Controllers
             return View();
         }
 
+        public ActionResult MenuOne()
+        {
+            return View();
+        }
+
+        public ActionResult MenuTwo()
+        {
+            return View();
+        }
     }
 }
