@@ -5,7 +5,7 @@ using ExtraMvcExtension.Bootstrap.Enums;
 namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 {
     /// <summary>
-    /// Represents a Boostrap list element in an MVC view.
+    /// Represents a Bootstrap list element in an MVC view.
     /// </summary>
     public class BootstrapMvcList : IDisposable
     {

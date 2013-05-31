@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BoostrapMvcExt")]
-[assembly: AssemblyDescription("BootStrap Extentsions for the ASP.NET MVC HtmlHelper class")]
+[assembly: AssemblyTitle("BootstrapMvcExt")]
+[assembly: AssemblyDescription("BootStrap Extensions for the ASP.NET MVC HtmlHelper class")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Thomas Barthélémy")]
 [assembly: AssemblyProduct("BootstrapMvcExt")]

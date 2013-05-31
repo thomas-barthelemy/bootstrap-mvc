@@ -5,7 +5,7 @@ using ExtraMvcExtension.Bootstrap.Enums;
 namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 {
     /// <summary>
-    /// Represents a Boostrap menu form element in an MVC view.
+    /// Represents a Bootstrap menu form element in an MVC view.
     /// </summary>
     public class BootstrapMenuForm : IDisposable
     {

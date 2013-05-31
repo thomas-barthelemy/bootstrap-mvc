@@ -3,17 +3,27 @@ using System.Web.Mvc;
 
 namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 {
+    /// <summary>
+    /// Represents a Bootstrap MVC Menu item container.
+    /// </summary>
     public class BootstrapMvcMenuItemsContainer : IDisposable
     {
         private readonly ViewContext _context;
         private bool _isStopped;
         private TagBuilderExt _listTag;
 
+        /// <summary>
+        /// Instantiates a Bootstrap MVC Menu item container.
+        /// </summary>
+        /// <param name="context">The current view context</param>
         internal BootstrapMvcMenuItemsContainer(ViewContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Creates the opening tag for the Menu Item container.
+        /// </summary>
         internal void BeginMenuItems()
         {
             _listTag = new TagBuilderExt("ul");
@@ -22,6 +32,9 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
             _context.Writer.WriteLine(_listTag.ToString(TagRenderMode.StartTag));
         }
 
+        /// <summary>
+        /// Closes the Menu Item container tag.
+        /// </summary>
         internal void StopMenu()
         {
             if (_isStopped) return;
@@ -41,7 +54,7 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
         }
 
         /// <summary>
-        /// Dispose the BootstrapMvcList and call for garbage collection.
+        /// Dispose the <see cref="BootstrapMvcList"/> and call for garbage collection.
         /// </summary>
         public void Dispose()
         {

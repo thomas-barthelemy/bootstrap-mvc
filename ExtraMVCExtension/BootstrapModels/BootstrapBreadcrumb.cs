@@ -3,20 +3,26 @@ using System.Web.Mvc;
 
 namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 {
+    /// <summary>
+    /// Represents a Bootstrap-themed breadcrumb 
+    /// </summary>
     public class BootstrapBreadcrumb : IDisposable
     {
-               private readonly ViewContext _context;
+        private readonly ViewContext _context;
         private bool _isStopped;
         private TagBuilder _breadcrumbsTag;
 
         /// <summary>
-        /// Create a new Bootstrap Breadcrumbs container for an MVC view.
+        /// Creates a new Bootstrap Breadcrumbs container for an MVC view.
         /// </summary>
         internal BootstrapBreadcrumb(ViewContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Creates the opening tag of a Bootstrap breadcrumb
+        /// </summary>
         internal void BeginBreadcrumb()
         {
             _breadcrumbsTag = new TagBuilderExt("ul");
@@ -24,7 +30,7 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
             _context.Writer.WriteLine(MvcHtmlString.Create(_breadcrumbsTag.ToString(TagRenderMode.StartTag)));
         }
 
-        internal void StopList()
+        internal void StopBreadcrumb()
         {
             if (_isStopped) return;
 
@@ -35,7 +41,7 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
 
         private void Dispose(bool cleanManaged)
         {
-            StopList();
+            StopBreadcrumb();
 
             if (!cleanManaged) return;
 

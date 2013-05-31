@@ -15,7 +15,7 @@ namespace ExtraMvcExtension.Bootstrap
         #region Constructors
 
         /// <summary>
-        /// Instanciates a new tag with a given name.
+        /// Instantiates a new tag with a given name.
         /// </summary>
         /// <param name="tagName">Name of the tag.</param>
         public TagBuilderExt(string tagName)
@@ -24,7 +24,7 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Instanciates a new tag with a given name and a set of child tags.
+        /// Instantiates a new tag with a given name and a set of child tags.
         /// </summary>
         /// <param name="tagName">Name of the tag.</param>
         /// <param name="childs">Child tags collection.</param>
@@ -41,7 +41,7 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Instanciates a new tag with a given name and a simple text content.
+        /// Instantiates a new tag with a given name and a simple text content.
         /// </summary>
         /// <param name="tagName">Name of the tag.</param>
         /// <param name="innerText">Inner text of the tag.</param>
@@ -63,7 +63,7 @@ namespace ExtraMvcExtension.Bootstrap
         #endregion
 
         /// <summary>
-        /// Add a tag as an innner tag of the current instance.
+        /// Add a tag as an inner tag of the current instance.
         /// </summary>
         /// <param name="child">Child tag.</param>
         public void AddChildTag(TagBuilderExt child)
@@ -71,13 +71,17 @@ namespace ExtraMvcExtension.Bootstrap
             ChildrenTags.Add(child);
         }
 
+        /// <summary>
+        /// Renders HTML code for the tag.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return ToString(TagRenderMode.Normal);
         }
 
         /// <summary>
-        /// Renders HTML code for the tag as an MvcHtmlString.
+        /// Renders HTML code for the tag as an <see cref="MvcHtmlString"/>.
         /// </summary>
         public MvcHtmlString ToMvcHtmlString()
         {
@@ -85,7 +89,7 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Renders HTML code for the tag as an MvcHtmlString.
+        /// Renders HTML code for the tag as an <see cref="MvcHtmlString"/>.
         /// </summary>
         /// <param name="tagRenderMode">Rendering mode used to create the HTML code.</param>
         public MvcHtmlString ToMvcHtmlString(TagRenderMode tagRenderMode)

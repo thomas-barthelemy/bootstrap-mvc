@@ -12,6 +12,9 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
     {
         private BootstrapHelper _bootstrap;
 
+        /// <summary>
+        /// Initializes the current page.
+        /// </summary>
         protected override void InitializePage()
         {
             base.InitializePage();
