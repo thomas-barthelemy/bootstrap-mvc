@@ -23,6 +23,14 @@ namespace BootstrapMvcDemoProject.Controllers
 
         public ActionResult MenuTwo()
         {
+            ViewBag.Progress = 50.00;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MenuTwo(Object viewModel)
+        {
+            ViewBag.Progress = new Random().Next(0, 100);
             return View();
         }
     }

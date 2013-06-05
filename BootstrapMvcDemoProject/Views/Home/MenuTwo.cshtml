@@ -1,5 +1,11 @@
-﻿@{
+﻿@using ExtraMvcExtension.Bootstrap.Enums
+@{
     ViewBag.Title = "MenuTwo";
 }
 
-<h2>MenuTwo</h2>
+@Bootstrap.ProgressBar(ProgressBarStyle.Animated, ViewBag.Progress)
+
+@using (Html.BeginForm())
+{
+    @Bootstrap.SubmitButton("Random bar value");
+}
