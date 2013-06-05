@@ -79,7 +79,7 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
         }
 
         /// <summary>
-        /// Dispose the BootstrapMvcList and call for garbage collection.
+        /// Dispose the BootstrapList and call for garbage collection.
         /// </summary>
         public void Dispose()
         {

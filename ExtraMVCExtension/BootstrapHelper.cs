@@ -46,17 +46,147 @@ namespace ExtraMvcExtension.Bootstrap
         #endregion
 
         #region Typography
-        /// <summary>
-        /// Makes a paragraph using the lead class to make it stand out.
-        /// </summary>
-        /// <param name="text">Content of the paragraph</param>
-        public MvcHtmlString LeadBody(string text)
-        {
-            var p = new TagBuilderExt("p");
-            p.AddCssClass("lead");
-            p.SetInnerText(text);
 
-            return p.ToMvcHtmlString();
+        /// <summary>
+        /// Creates an HTML abbreviation with it's corresponding definition.
+        /// </summary>
+        /// <param name="title">Definition of the abbreviation.</param>
+        /// <param name="value">The abbreviation.</param>
+        public MvcHtmlString Abbreviation(string title, string value)
+        {
+            return Abbreviation(title, value, false);
+        }
+        /// <summary>
+        /// Creates an HTML abbreviation with it's corresponding definition.
+        /// </summary>
+        /// <param name="title">Definition of the abbreviation.</param>
+        /// <param name="value">The abbreviation.</param>
+        /// <param name="isReduced">
+        /// Defines if the abbreviation uses the <c>initialism</c> class for a slightly
+        /// smaller font-size.
+        /// </param>
+        public MvcHtmlString Abbreviation(string title, string value, bool isReduced)
+        {
+            var abbr = new TagBuilderExt("abbr", value);
+            if (isReduced)
+                abbr.AddCssClass("initialism");
+            abbr.MergeAttribute("title", title);
+
+            return abbr.ToMvcHtmlString();
+        }
+
+        /// <summary>
+        /// Creates an HTML block-quote.
+        /// </summary>
+        /// <param name="quote">The quote.</param>
+        /// <param name="author">The author.</param>
+        /// <param name="source">The source.</param>
+        /// <param name="sourceTitle">
+        /// The <paramref name="source"/> title.
+        /// </param>
+        public MvcHtmlString BlockQuote(string quote, string author, string source, string sourceTitle)
+        {
+            return BlockQuote(quote, author, source, sourceTitle, false);
+        }
+        /// <summary>
+        /// Creates an HTML block-quote.
+        /// </summary>
+        /// <param name="quote">The quote.</param>
+        /// <param name="author">The author.</param>
+        /// <param name="source">The source.</param>
+        /// <param name="sourceTitle">
+        /// The <paramref name="source"/> title.
+        /// </param>
+        /// <param name="isPulledRight">
+        /// Set to <see langword="true"/> for a floated, right-aligned
+        /// blockquote.
+        /// </param>
+        public MvcHtmlString BlockQuote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
+        {
+            var blockquote = new TagBuilderExt("blockquote");
+            if (isPulledRight)
+                blockquote.AddCssClass("pull-right");
+
+            var cite = new TagBuilderExt("cite", source);
+            cite.MergeAttribute("title", sourceTitle);
+
+            blockquote.CreateChildTag("p", quote);
+            blockquote.CreateChildTag("small").InnerHtml = String.Concat(author, " ", cite.ToString());
+
+            return blockquote.ToMvcHtmlString();
+        }
+
+        /// <summary>
+        /// Begins a new list tag
+        /// </summary>
+        /// <param name="listType">Type of the desired list.</param>
+        /// <returns>
+        /// 
+        /// </returns>
+        public BootstrapMvcList BeginList(ListType listType)
+        {
+            var list = new BootstrapMvcList(_html.ViewContext);
+            list.BeginList(listType);
+
+            return list;
+        }
+        /// <summary>
+        /// Creates a list with the associated elements.
+        /// </summary>
+        /// <param name="listType">The type of the list.</param>
+        /// <param name="elements">The elements of the list.</param>
+        public MvcHtmlString List(ListType listType, IEnumerable<string> elements)
+        {
+            if (elements == null) return null;
+
+            var root = BootstrapMvcList.GetRootTagBuilder(listType);
+
+            foreach (var element in elements)
+            {
+                root.CreateChildTag("li", element);
+            }
+
+            return root.ToMvcHtmlString();
+        }
+
+        /// <summary>
+        /// Creates a list of terms with their associated descriptions.
+        /// </summary>
+        /// <param name="isHorizontal">
+        /// Make terms and descriptions in the description list line up side-by-side.
+        /// </param>
+        public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
+        {
+            var list = new BootstrapMvcList(_html.ViewContext);
+            list.BeginDescriptionList(isHorizontal);
+
+            return list;
+        }
+        /// <summary>
+        /// Creates a description list with the associated descriptions
+        /// </summary>
+        /// <param name="isHorizontal">
+        /// Make terms and descriptions in line up side-by-side.
+        /// </param>
+        /// <param name="elements">
+        /// The dictionary of descriptions by title (key) and description
+        /// (value).
+        /// </param>
+        public MvcHtmlString DescriptionList(bool isHorizontal, IDictionary<string, string> elements)
+        {
+            if (elements == null) return null;
+
+            var root = new TagBuilderExt("dl");
+            if (isHorizontal)
+                root.AddCssClass("dl-horizontal");
+
+            foreach (var element in elements)
+            {
+                root.CreateChildTag("dt", element.Key);
+                root.CreateChildTag("dd", element.Value);
+            }
+
+            return root.ToMvcHtmlString();
         }
 
         /// <summary>
@@ -94,152 +224,18 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Creates an HTML abbreviation with it's corresponding definition.
+        /// Makes a paragraph using the lead class to make it stand out.
         /// </summary>
-        /// <param name="title">Definition of the abbreviation.</param>
-        /// <param name="value">The abbreviation.</param>
-        public MvcHtmlString Abbreviation(string title, string value)
+        /// <param name="text">Content of the paragraph</param>
+        public MvcHtmlString LeadBody(string text)
         {
-            return Abbreviation(title, value, false);
-        }
-        /// <summary>
-        /// Creates an HTML abbreviation with it's corresponding definition.
-        /// </summary>
-        /// <param name="title">Definition of the abbreviation.</param>
-        /// <param name="value">The abbreviation.</param>
-        /// <param name="isReduced">
-        /// Defines if the abbreviation uses the <c>initialism</c> class for a slightly
-        /// smaller font-size.
-        /// </param>
-        public MvcHtmlString Abbreviation(string title, string value, bool isReduced)
-        {
-            var abbr = new TagBuilder("abbr");
-            if (isReduced)
-                abbr.AddCssClass("initialism");
-            abbr.MergeAttribute("title", title);
-            abbr.SetInnerText(value);
+            var p = new TagBuilderExt("p");
+            p.AddCssClass("lead");
+            p.SetInnerText(text);
 
-            return MvcHtmlString.Create(abbr.ToString());
+            return p.ToMvcHtmlString();
         }
 
-        /// <summary>
-        /// Creates an HTML block-quote.
-        /// </summary>
-        /// <param name="quote">The quote.</param>
-        /// <param name="author">The author.</param>
-        /// <param name="source">The source.</param>
-        /// <param name="sourceTitle">
-        /// The <paramref name="source"/> title.
-        /// </param>
-        public MvcHtmlString BlockQuote(string quote, string author, string source, string sourceTitle)
-        {
-            return BlockQuote(quote, author, source, sourceTitle, false);
-        }
-        /// <summary>
-        /// Creates an HTML block-quote.
-        /// </summary>
-        /// <param name="quote">The quote.</param>
-        /// <param name="author">The author.</param>
-        /// <param name="source">The source.</param>
-        /// <param name="sourceTitle">
-        /// The <paramref name="source"/> title.
-        /// </param>
-        /// <param name="isPulledRight">
-        /// Set to <see langword="true"/> for a floated, right-aligned
-        /// blockquote.
-        /// </param>
-        public MvcHtmlString BlockQuote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
-        {
-            var cite = new TagBuilderExt("cite", source);
-            cite.MergeAttribute("title", sourceTitle);
-
-            var small = new TagBuilderExt("small") { InnerHtml = String.Concat(author, " ", cite.ToString()) };
-
-            var p = new TagBuilderExt("p", quote);
-
-            var blockquote = new TagBuilderExt("blockquote");
-            if (isPulledRight)
-                blockquote.AddCssClass("pull-right");
-
-            blockquote.InnerHtml = String.Concat(p.ToString(), small.ToString());
-
-            return blockquote.ToMvcHtmlString();
-        }
-
-        /// <summary>
-        /// Begins a new list tag
-        /// </summary>
-        /// <param name="listType">Type of the desired list.</param>
-        /// <returns>
-        /// 
-        /// </returns>
-        public BootstrapMvcList BeginList(ListType listType)
-        {
-            var list = new BootstrapMvcList(_html.ViewContext);
-            list.BeginList(listType);
-
-            return list;
-        }
-        /// <summary>
-        /// Creates a list with the associated elements.
-        /// </summary>
-        /// <param name="listType">The type of the list.</param>
-        /// <param name="elements">The elements of the list.</param>
-        public MvcHtmlString List(ListType listType, IEnumerable<string> elements)
-        {
-            var root = BootstrapMvcList.GetRootTagBuilder(listType);
-
-            if (elements == null)
-                return MvcHtmlString.Create(root.ToString());
-
-            foreach (var element in elements)
-            {
-                root.AddChildTag(new TagBuilderExt("li", element));
-            }
-
-            return root.ToMvcHtmlString();
-        }
-
-        /// <summary>
-        /// Creates a list of terms with their associated descriptions.
-        /// </summary>
-        /// <param name="isHorizontal">
-        /// Make terms and descriptions in the description list line up side-by-side.
-        /// </param>
-        public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
-        {
-            var list = new BootstrapMvcList(_html.ViewContext);
-            list.BeginDescriptionList(isHorizontal);
-
-            return list;
-        }
-        /// <summary>
-        /// Creates a description list with the associated descriptions
-        /// </summary>
-        /// <param name="isHorizontal">
-        /// Make terms and descriptions in line up side-by-side.
-        /// </param>
-        /// <param name="elements">
-        /// The dictionary of descriptions by title (key) and description
-        /// (value).
-        /// </param>
-        public MvcHtmlString DescriptionList(bool isHorizontal, IDictionary<string, string> elements)
-        {
-            if (elements == null)
-                return null;
-
-            var root = new TagBuilderExt("dl");
-            if (isHorizontal)
-                root.AddCssClass("dl-horizontal");
-
-            foreach (var element in elements)
-            {
-                root.AddChildTag(new TagBuilderExt("dt", element.Key));
-                root.AddChildTag(new TagBuilderExt("dd", element.Value));
-            }
-
-            return root.ToMvcHtmlString();
-        }
         #endregion
 
         #region Buttons
@@ -342,7 +338,7 @@ namespace ExtraMvcExtension.Bootstrap
             tag.MergeAttribute("type", "submit");
             tag.SetInnerText(text);
 
-            return new MvcHtmlString(tag.ToString());
+            return tag.ToMvcHtmlString();
         }
         /// <summary>
         /// Creates a submit button tag with a default style and size.
@@ -371,7 +367,7 @@ namespace ExtraMvcExtension.Bootstrap
             tag.MergeAttribute("type", "button");
             tag.SetInnerText(text);
 
-            return new MvcHtmlString(tag.ToString());
+            return tag.ToMvcHtmlString();
         }
         /// <summary>
         /// Creates an input button tag with a default style and size.
@@ -379,15 +375,11 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="text">Inner text of the tag.</param>
         public MvcHtmlString InputButton(string text)
         {
-            var tag = CreateBaseButton("input", ButtonStyle.Default, ButtonSize.Default, false);
-            tag.MergeAttribute("type", "button");
-            tag.SetInnerText(text);
-
-            return new MvcHtmlString(tag.ToString());
+            return InputButton(text, ButtonStyle.Default, ButtonSize.Default, false);
         }
         #endregion
 
-        #region Input buttons
+        #region Input Submit buttons
         /// <summary>
         /// Creates an input submit button tag with the given style and size.
         /// </summary>
@@ -404,7 +396,7 @@ namespace ExtraMvcExtension.Bootstrap
             tag.MergeAttribute("type", "submit");
             tag.SetInnerText(text);
 
-            return new MvcHtmlString(tag.ToString());
+            return tag.ToMvcHtmlString();
         }
         /// <summary>
         /// Creates an input submit button tag with a default style and size.
@@ -412,14 +404,9 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="text">Inner text of the tag.</param>
         public MvcHtmlString InputSubmitButton(string text)
         {
-            var tag = CreateBaseButton("input", ButtonStyle.Default, ButtonSize.Default, false);
-            tag.MergeAttribute("type", "submit");
-            tag.SetInnerText(text);
-
-            return new MvcHtmlString(tag.ToString());
+            return InputSubmitButton(text, ButtonStyle.Default, ButtonSize.Default, false);
         }
         #endregion
-
         #endregion
 
         #region Images
@@ -770,5 +757,84 @@ namespace ExtraMvcExtension.Bootstrap
             return listItem.ToMvcHtmlString();
         }
         #endregion
+
+        #region Progress bars
+        /// <summary>
+        /// Creates a Bootstrap progress-bar with a defined 
+        /// <paramref name="style"/>, <paramref name="color"/> and 
+        /// <paramref name="progress"/>.
+        /// </summary>
+        /// <param name="style">The style of the progress bar</param>
+        /// <param name="color">The color of the progress bar</param>
+        /// <param name="progress">The current progress percentage</param>
+        public MvcHtmlString ProgressBar(ProgressBarStyle style, ProgressBarColor color, double progress)
+        {
+            var progressTag = new TagBuilderExt("div");
+            progressTag.AddCssClass("progress");
+
+            switch (color)
+            {
+                case ProgressBarColor.Info:
+                    progressTag.AddCssClass("progress-info");
+                    break;
+                case ProgressBarColor.Success:
+                    progressTag.AddCssClass("progress-success");
+                    break;
+                case ProgressBarColor.Warning:
+                    progressTag.AddCssClass("progress-warning");
+                    break;
+                case ProgressBarColor.Danger:
+                    progressTag.AddCssClass("progress-danger");
+                    break;
+            }
+
+            switch (style)
+            {
+                case ProgressBarStyle.Animated:
+                    progressTag.AddCssClass("active");
+                    break;
+                    
+                case ProgressBarStyle.Striped:
+                    progressTag.AddCssClass("progress-striped");
+                    break;
+            }
+
+            var barTag = progressTag.CreateChildTag("div");
+            barTag.AddCssClass("bar");
+            barTag.MergeAttribute("style", string.Format("width: {0}%", progress));
+            return progressTag.ToMvcHtmlString();
+        }
+        /// <summary>
+        /// Creates a Bootstrap progress-bar with a defined 
+        /// <paramref name="style"/>, a default color and 
+        /// <paramref name="progress"/>.
+        /// </summary>
+        /// <param name="style">The style of the progress bar</param>
+        /// <param name="progress">The current progress percentage</param>
+        public MvcHtmlString ProgressBar(ProgressBarStyle style, double progress)
+        {
+            return ProgressBar(style, ProgressBarColor.Default, progress);
+        }
+        /// <summary>
+        /// Creates a Bootstrap progress-bar with a default 
+        /// style, a specified <paramref name="color"/> and 
+        /// <paramref name="progress"/>.
+        /// </summary>
+        /// <param name="color">The color of the progress bar</param>
+        /// <param name="progress">The current progress percentage</param>
+        public MvcHtmlString ProgressBar(ProgressBarColor color, double progress)
+        {
+            return ProgressBar(ProgressBarStyle.Default, color, progress);
+        }
+        /// <summary>
+        /// Creates a Bootstrap progress-bar with a default color and style.
+        /// </summary>
+        /// <param name="progress">The current progress percentage</param>
+        public MvcHtmlString ProgressBar(double progress)
+        {
+            return ProgressBar(ProgressBarStyle.Default, ProgressBarColor.Default, progress);
+        }
+        #endregion
+
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Enums\Forms.cs" />
     <Compile Include="Enums\Images.cs" />
     <Compile Include="Enums\Menus.cs" />
+    <Compile Include="Enums\ProgressBar.cs" />
     <Compile Include="Enums\Tables.cs" />
     <Compile Include="Enums\Typography.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

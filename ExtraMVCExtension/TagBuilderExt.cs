@@ -48,7 +48,8 @@ namespace ExtraMvcExtension.Bootstrap
         public TagBuilderExt(string tagName, string innerText)
             : base(tagName)
         {
-            SetInnerText(innerText);
+            if (!string.IsNullOrWhiteSpace(innerText))
+                SetInnerText(innerText);
         }
         #endregion
 
@@ -65,10 +66,34 @@ namespace ExtraMvcExtension.Bootstrap
         /// <summary>
         /// Add a tag as an inner tag of the current instance.
         /// </summary>
-        /// <param name="child">Child tag.</param>
+        /// <param name="child">Child tag</param>
         public void AddChildTag(TagBuilderExt child)
         {
             ChildrenTags.Add(child);
+        }
+
+        /// <summary>
+        /// Creates a child tag with the specified name and HTML Content.
+        /// </summary>
+        /// <param name="tagName">Name of the child tag</param>
+        /// <param name="content">Content of the child tag</param>
+        /// <returns>Returns the <see cref="TagBuilderExt"/> for the child tag</returns>
+        public TagBuilderExt CreateChildTag(string tagName, string content)
+        {
+            var child = new TagBuilderExt(tagName, content);
+            AddChildTag(child);
+
+            return child;
+        }
+
+        /// <summary>
+        /// Creates a child tag with the specified name and HTML Content.
+        /// </summary>
+        /// <param name="tagName">Name of the child tag</param>
+        /// <returns>Returns the <see cref="TagBuilderExt"/> for the child tag</returns>
+        public TagBuilderExt CreateChildTag(string tagName)
+        {
+            return CreateChildTag(tagName, null);
         }
 
         /// <summary>
