@@ -1,9 +1,9 @@
 ﻿namespace ExtraMvcExtension.Bootstrap.Enums
 {
     /// <summary>
-    /// Defines the form type
+    /// Defines the available menu-form types
     /// </summary>
-    public enum FormType
+    public enum MenuFormType
     {
         Default,
         MenuSearchForm

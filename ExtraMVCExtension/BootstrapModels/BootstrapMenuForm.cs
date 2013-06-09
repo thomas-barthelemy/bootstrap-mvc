@@ -21,13 +21,13 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
             _context = context;
         }
 
-        internal void BeginList(FormType formType, HorizontalAlignment horizontalAlignment)
+        internal void BeginList(MenuFormType menuFormType, HorizontalAlignment horizontalAlignment)
         {
             _formTag = new TagBuilderExt("form");
 
-            switch (formType)
+            switch (menuFormType)
             {
-                case FormType.MenuSearchForm:
+                case MenuFormType.MenuSearchForm:
                     _formTag.AddCssClass("navbar-search");
                     break;
                 default:

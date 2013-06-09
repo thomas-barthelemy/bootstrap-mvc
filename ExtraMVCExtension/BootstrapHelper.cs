@@ -13,9 +13,18 @@ namespace ExtraMvcExtension.Bootstrap
     public class BootstrapHelper
     {
         #region Fields
-        private readonly HtmlHelper _html;
-        private readonly UrlHelper _url;
-        private readonly BootstrapMvcPage _page;
+        /// <summary>
+        /// Represents the instance of the <see cref="HtmlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
+        /// </summary>
+        protected readonly HtmlHelper Html;
+        /// <summary>
+        /// Represents the instance of the <see cref="UrlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
+        /// </summary>
+        protected readonly UrlHelper Url;
+        /// <summary>
+        /// Represents the instance of the <see cref="BootstrapMvcPage"/> associated to this <see cref="BootstrapHelper"/>
+        /// </summary>
+        protected readonly BootstrapMvcPage Page;
         #endregion
 
         #region Constructors
@@ -25,9 +34,9 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="page">The current view</param>
         public BootstrapHelper(BootstrapMvcPage page)
         {
-            _page = page;
-            _html = page.Html;
-            _url = page.Url;
+            Page = page;
+            Html = page.Html;
+            Url = page.Url;
         }
         #endregion
 
@@ -39,7 +48,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="url">Url to check</param>
         internal bool IsCurrentUrl(string url)
         {
-            var currentUrl = _html.ViewContext.RequestContext.HttpContext.Request.Url;
+            var currentUrl = Html.ViewContext.RequestContext.HttpContext.Request.Url;
             if (currentUrl == null) return false;
             return currentUrl.AbsoluteUri.Equals(url) || currentUrl.AbsolutePath.Equals(url);
         }
@@ -125,7 +134,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </returns>
         public BootstrapMvcList BeginList(ListType listType)
         {
-            var list = new BootstrapMvcList(_html.ViewContext);
+            var list = new BootstrapMvcList(Html.ViewContext);
             list.BeginList(listType);
 
             return list;
@@ -157,7 +166,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </param>
         public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
         {
-            var list = new BootstrapMvcList(_html.ViewContext);
+            var list = new BootstrapMvcList(Html.ViewContext);
             list.BeginDescriptionList(isHorizontal);
 
             return list;
@@ -461,7 +470,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </param>
         public BootstrapMvcMenu BeginMenu(MenuType menuType, bool isInversed)
         {
-            var menu = new BootstrapMvcMenu(_html.ViewContext);
+            var menu = new BootstrapMvcMenu(Html.ViewContext);
             menu.BeginMenu(menuType, isInversed);
             return menu;
         }
@@ -499,7 +508,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </param>
         public MvcHtmlString MenuTitle(string title, string action, string controller, object routeValues)
         {
-            return MenuTitle(title, _url.Action(action, controller, routeValues));
+            return MenuTitle(title, Url.Action(action, controller, routeValues));
         }
         /// <summary>
         /// Creates a menu <paramref name="title"/> (have to be used inside a
@@ -510,7 +519,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="controller">The controller name</param>
         public MvcHtmlString MenuTitle(string title, string action, string controller)
         {
-            return MenuTitle(title, _url.Action(action, controller));
+            return MenuTitle(title, Url.Action(action, controller));
         }
         /// <summary>
         /// Creates a menu <paramref name="title"/> (have to be used inside a
@@ -532,7 +541,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         public BootstrapMvcMenuItemsContainer BeginMenuItems()
         {
-            var menuItems = new BootstrapMvcMenuItemsContainer(_html.ViewContext);
+            var menuItems = new BootstrapMvcMenuItemsContainer(Html.ViewContext);
             menuItems.BeginMenuItems();
 
             return menuItems;
@@ -553,7 +562,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </param>
         public MvcHtmlString MenuLink(string title, string action, string controller, object routeValues)
         {
-            return MenuLink(title, _url.Action(action, controller, routeValues));
+            return MenuLink(title, Url.Action(action, controller, routeValues));
         }
         /// <summary>
         /// Creates one menu link entry with the specified
@@ -564,7 +573,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <param name="controller">The name of the controller</param>
         public MvcHtmlString MenuLink(string title, string action, string controller)
         {
-            return MenuLink(title, _url.Action(action, controller));
+            return MenuLink(title, Url.Action(action, controller));
         }
         /// <summary>
         /// Creates one menu link entry with the specified
@@ -600,14 +609,14 @@ namespace ExtraMvcExtension.Bootstrap
         /// <summary>
         /// Begins a menu form. Have to be used inside a Bootstrap MVC Menu.
         /// </summary>
-        /// <param name="formType">The form type</param>
+        /// <param name="menuFormType">The form type</param>
         /// <param name="horizontalAlignment">
         /// The horizontal alignment applied on the form
         /// </param>
-        public BootstrapMenuForm BeginMenuForm(FormType formType, HorizontalAlignment horizontalAlignment)
+        public BootstrapMenuForm BeginMenuForm(MenuFormType menuFormType, HorizontalAlignment horizontalAlignment)
         {
-            var menuForm = new BootstrapMenuForm(_html.ViewContext);
-            menuForm.BeginList(formType, horizontalAlignment);
+            var menuForm = new BootstrapMenuForm(Html.ViewContext);
+            menuForm.BeginList(menuFormType, horizontalAlignment);
             return menuForm;
         }
         /// <summary>
@@ -619,16 +628,16 @@ namespace ExtraMvcExtension.Bootstrap
         /// </param>
         public BootstrapMenuForm BeginMenuForm(HorizontalAlignment horizontalAlignment)
         {
-            return BeginMenuForm(FormType.Default, horizontalAlignment);
+            return BeginMenuForm(MenuFormType.Default, horizontalAlignment);
         }
         /// <summary>
         /// Begins a menu form with a default left alignment. Have to be used
         /// inside a Bootstrap MVC Menu.
         /// </summary>
-        /// <param name="formType">The form type</param>
-        public BootstrapMenuForm BeginMenuForm(FormType formType)
+        /// <param name="menuFormType">The form type</param>
+        public BootstrapMenuForm BeginMenuForm(MenuFormType menuFormType)
         {
-            return BeginMenuForm(formType, HorizontalAlignment.Left);
+            return BeginMenuForm(menuFormType, HorizontalAlignment.Left);
 
         }
         /// <summary>
@@ -637,7 +646,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </summary>
         public BootstrapMenuForm BeginMenuForm()
         {
-            return BeginMenuForm(FormType.Default, HorizontalAlignment.Left);
+            return BeginMenuForm(MenuFormType.Default, HorizontalAlignment.Left);
         }
         #endregion
 
@@ -651,7 +660,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </returns>
         public BootstrapBreadcrumb BeginBreadCrumb()
         {
-            var breadCrumb = new BootstrapBreadcrumb(_html.ViewContext);
+            var breadCrumb = new BootstrapBreadcrumb(Html.ViewContext);
             breadCrumb.BeginBreadcrumb();
             return breadCrumb;
         }
@@ -670,7 +679,7 @@ namespace ExtraMvcExtension.Bootstrap
         {
             var breadcrumbTag = new TagBuilderExt("ul");
             breadcrumbTag.AddCssClass("breadcrumb");
-            var navHistory = _page.NavigationHistory.ToArray();
+            var navHistory = Page.NavigationHistory.ToArray();
 
             var linksToDisplay = navHistory.Skip(Math.Max(0, navHistory.Count() - maximumElements)).Take(maximumElements);
             var visitedPages = linksToDisplay as IList<VisitedPage> ?? linksToDisplay.ToList();
@@ -704,7 +713,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </param>
         public MvcHtmlString BreadcrumbLink(string title, string action, string controller, object routeValues, string divider)
         {
-            return BreadcrumbLink(title, _url.Action(action, controller, routeValues), divider);
+            return BreadcrumbLink(title, Url.Action(action, controller, routeValues), divider);
         }
         /// <summary>
         /// Creates one breadcrumb link entry with the specified
@@ -719,7 +728,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// </param>
         public MvcHtmlString BreadcrumbLink(string title, string action, string controller, string divider)
         {
-            return BreadcrumbLink(title, _url.Action(action, controller), divider);
+            return BreadcrumbLink(title, Url.Action(action, controller), divider);
         }
         /// <summary>
         /// Creates one breadcrumb link entry with the specified
@@ -835,6 +844,31 @@ namespace ExtraMvcExtension.Bootstrap
             return ProgressBar(ProgressBarStyle.Default, ProgressBarColor.Default, progress);
         }
         #endregion
+
+        #region Forms
+
+        #endregion
+
+    }
+
+    /// <summary>
+    /// Provides methods to generate HTML code for Twitter Bootstrap on a generic view.
+    /// </summary>
+    /// <typeparam name="TModel">The generic page-view view-model</typeparam>
+    public class BootstrapHelper<TModel> : BootstrapHelper
+        where TModel : class
+    {
+        private BootstrapMvcPage _page;
+        private HtmlHelper<TModel> _html; 
+        /// <summary>
+        /// Creates a new instance of the Bootstrap helper.
+        /// </summary>
+        /// <param name="page">The current view.</param>
+        public BootstrapHelper(BootstrapMvcPage<TModel> page) : base(page)
+        {
+            _page = page;
+            _html = page.Html;
+        }
 
     }
 }
