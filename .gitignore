@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 *.sln.DotSettings
+*.sln.ide
 
 # Build results
 [Dd]ebug/
