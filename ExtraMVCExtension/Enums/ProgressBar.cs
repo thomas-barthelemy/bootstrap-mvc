@@ -41,7 +41,7 @@
         /// </summary>
         Warning,
         /// <summary>
-        /// Uses a red color for a danger & error case.
+        /// Uses a red color for a danger and error case.
         /// </summary>
         Danger
     }

@@ -16,15 +16,15 @@ namespace ExtraMvcExtension.Bootstrap
         /// <summary>
         /// Represents the instance of the <see cref="HtmlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
         /// </summary>
-        protected readonly HtmlHelper Html;
+        protected HtmlHelper Html { get; }
         /// <summary>
         /// Represents the instance of the <see cref="UrlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
         /// </summary>
-        protected readonly UrlHelper Url;
+        protected UrlHelper Url { get; }
         /// <summary>
         /// Represents the instance of the <see cref="BootstrapMvcPage"/> associated to this <see cref="BootstrapHelper"/>
         /// </summary>
-        protected readonly BootstrapMvcPage Page;
+        protected BootstrapMvcPage Page { get; }
         #endregion
 
         #region Constructors
@@ -735,16 +735,16 @@ namespace ExtraMvcExtension.Bootstrap
         /// <paramref name="title"/> and link.
         /// </summary>
         /// <param name="title">The title of the breadcrumb link</param>
-        /// <param name="url">The fully quallified URL</param>
+        /// <param name="stringUrl">The fully quallified URL</param>
         /// <param name="divider">
         /// Specify the divider created after the link. Set to "null" or empty
         /// for no divider.
         /// </param>
-        public MvcHtmlString BreadcrumbLink(string title, string url, string divider)
+        public MvcHtmlString BreadcrumbLink(string title, string stringUrl, string divider)
         {
             var listItem = new TagBuilderExt("li");
 
-            if (IsCurrentUrl(url))
+            if (IsCurrentUrl(stringUrl))
             {
                 listItem.AddCssClass("active");
                 listItem.SetInnerText(title);
@@ -752,7 +752,7 @@ namespace ExtraMvcExtension.Bootstrap
             else
             {
                 var link = new TagBuilderExt("a");
-                link.MergeAttribute("href", url);
+                link.MergeAttribute("href", stringUrl);
                 link.SetInnerText(title);
                 listItem.AddChildTag(link);
             }
