@@ -1,0 +1,42 @@
+﻿@using ExtraMvcExtension.Bootstrap
+@using ExtraMvcExtension.Bootstrap.Enums
+@{
+    var bootstrap = new BootstrapHelper(this);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    @using (bootstrap.BeginMenu(MenuType.StaticTop))
+    {
+        @bootstrap.MenuTitle("My Title", "Index", "Home")
+
+        using (bootstrap.BeginMenuItems())
+        {
+            @bootstrap.MenuLink("Home", "Index", "Home")
+            @bootstrap.MenuLink("My Menu 1", "MenuOne", "Home")
+            @bootstrap.MenuLink("My Menu 2", "MenuTwo", "Home")
+        }
+    }
+    <h1>@ViewBag.Title</h1>
+    <h2>Manual Breadcrumb</h2>
+    @using (bootstrap.BeginBreadCrumb())
+    {
+        @bootstrap.BreadcrumbLink("Home", "Index", "Home", "/")
+        @bootstrap.BreadcrumbLink("Menu 1", "MenuOne", "Home", null)
+    }
+
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

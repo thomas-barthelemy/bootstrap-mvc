@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web.Mvc;
 using ExtraMvcExtension.Bootstrap.BootstrapModels;
 using ExtraMvcExtension.Bootstrap.Enums;
-using System.Linq;
 
 namespace ExtraMvcExtension.Bootstrap
 {
@@ -24,7 +24,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// <summary>
         /// Represents the instance of the <see cref="BootstrapMvcPage"/> associated to this <see cref="BootstrapHelper"/>
         /// </summary>
-        protected BootstrapMvcPage Page { get; }
+        protected WebViewPage Page { get; }
         #endregion
 
         #region Constructors
@@ -32,7 +32,7 @@ namespace ExtraMvcExtension.Bootstrap
         /// Creates a new instance of the Bootstrap helper.
         /// </summary>
         /// <param name="page">The current view</param>
-        public BootstrapHelper(BootstrapMvcPage page)
+        public BootstrapHelper(WebViewPage page)
         {
             Page = page;
             Html = page.Html;
@@ -530,7 +530,7 @@ namespace ExtraMvcExtension.Bootstrap
         public MvcHtmlString MenuTitle(string title, string url)
         {
             var a = new TagBuilderExt("a", title);
-            a.AddCssClass("brand");
+            a.AddCssClass("navbar-brand");
             a.MergeAttribute("href", url);
 
             return a.ToMvcHtmlString();
@@ -665,34 +665,24 @@ namespace ExtraMvcExtension.Bootstrap
             return breadCrumb;
         }
 
-        /// <summary>
-        /// Creates an automatic breadcrumb based on the navigation history.
-        /// </summary>
-        /// <param name="maximumElements">
-        /// The maximum number of breadcrumbs to be displayed.
-        /// </param>
-        /// <param name="divider">The divider used between breadcrumbs.</param>
-        /// <returns>
-        /// 
-        /// </returns>
-        public MvcHtmlString Breadcrumb(int maximumElements, string divider)
-        {
-            var breadcrumbTag = new TagBuilderExt("ul");
-            breadcrumbTag.AddCssClass("breadcrumb");
-            var navHistory = Page.NavigationHistory.ToArray();
+        //public MvcHtmlString Breadcrumb(int maximumElements, string divider)
+        //{
+        //    var breadcrumbTag = new TagBuilderExt("ul");
+        //    breadcrumbTag.AddCssClass("breadcrumb");
+        //    var navHistory = Page.NavigationHistory.ToArray();
 
-            var linksToDisplay = navHistory.Skip(Math.Max(0, navHistory.Count() - maximumElements)).Take(maximumElements);
-            var visitedPages = linksToDisplay as IList<VisitedPage> ?? linksToDisplay.ToList();
-            var lastElement = visitedPages.Last();
-            foreach (var visitedPage in visitedPages)
-            {
-                if (visitedPage == lastElement)
-                    divider = null;
-                breadcrumbTag.InnerHtml += BreadcrumbLink(visitedPage.Title, visitedPage.Uri.AbsoluteUri, divider);
-            }
+        //    var linksToDisplay = navHistory.Skip(Math.Max(0, navHistory.Count() - maximumElements)).Take(maximumElements);
+        //    var visitedPages = linksToDisplay as IList<VisitedPage> ?? linksToDisplay.ToList();
+        //    var lastElement = visitedPages.Last();
+        //    foreach (var visitedPage in visitedPages)
+        //    {
+        //        if (visitedPage == lastElement)
+        //            divider = null;
+        //        breadcrumbTag.InnerHtml += BreadcrumbLink(visitedPage.Title, visitedPage.Uri.AbsoluteUri, divider);
+        //    }
 
-            return breadcrumbTag.ToMvcHtmlString();
-        }
+        //    return breadcrumbTag.ToMvcHtmlString();
+        //}
 
         /// <summary>
         /// Creates one breadcrumb link entry with the specified
@@ -809,7 +799,11 @@ namespace ExtraMvcExtension.Bootstrap
             }
 
             var barTag = progressTag.CreateChildTag("div");
-            barTag.AddCssClass("bar");
+            barTag.AddCssClass("progress-bar");
+            barTag.MergeAttribute("role", "progressbar");
+            barTag.MergeAttribute("aria-valuenow", progress.ToString(CultureInfo.InvariantCulture));
+            barTag.MergeAttribute("aria-valuemin", "0");
+            barTag.MergeAttribute("aria-valuemax", "100");
             barTag.MergeAttribute("style", string.Format("width: {0}%", progress));
             return progressTag.ToMvcHtmlString();
         }
@@ -869,6 +863,5 @@ namespace ExtraMvcExtension.Bootstrap
             _page = page;
             _html = page.Html;
         }
-
     }
 }

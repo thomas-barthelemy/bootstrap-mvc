@@ -21,6 +21,7 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
         internal void BeginMenu(MenuType type, bool isInversed)
         {
             _menuTag = new TagBuilderExt("div");
+            _menuTag.AddCssClass("navbar-default");
             _menuTag.AddCssClass("navbar");
 
             switch (type)
@@ -39,7 +40,7 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
             if (isInversed)
                 _menuTag.AddCssClass("navbar-inverse");
             var inner = new TagBuilderExt("div");
-            inner.AddCssClass("navbar-inner");
+            inner.AddCssClass("container");
             _menuTag.AddChildTag(inner);
 
             _context.Writer.WriteLine(_menuTag.ToString(TagRenderMode.StartTag));

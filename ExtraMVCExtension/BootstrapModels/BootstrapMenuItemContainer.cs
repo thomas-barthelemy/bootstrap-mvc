@@ -27,6 +27,7 @@ namespace ExtraMvcExtension.Bootstrap.BootstrapModels
         internal void BeginMenuItems()
         {
             _listTag = new TagBuilderExt("ul");
+            _listTag.AddCssClass("navbar-nav");
             _listTag.AddCssClass("nav");
 
             _context.Writer.WriteLine(_listTag.ToString(TagRenderMode.StartTag));

@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootstrapMvcDemo", "BootstrapMvcDemo\BootstrapMvcDemo.csproj", "{B545E50C-E864-4263-BC7C-F8153A43EACB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootstrapMVCExtension", "..\ExtraMVCExtension\BootstrapMVCExtension.csproj", "{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B545E50C-E864-4263-BC7C-F8153A43EACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B545E50C-E864-4263-BC7C-F8153A43EACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B545E50C-E864-4263-BC7C-F8153A43EACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B545E50C-E864-4263-BC7C-F8153A43EACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E0EAF54-6C91-4FFB-B391-F0513E619DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

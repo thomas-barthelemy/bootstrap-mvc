@@ -1,0 +1,32 @@
+﻿@using ExtraMvcExtension.Bootstrap
+@using ExtraMvcExtension.Bootstrap.Enums
+@{
+    ViewBag.Title = "MenuOne";
+    var bootstrap = new BootstrapHelper(this);
+
+}
+
+<h3>Abbreviations</h3>
+<p>
+    @bootstrap.Abbreviation("Model/View/Controller", "MVC") with
+    @(bootstrap.Abbreviation("Active Server Page", "ASP")).NET is so awesome :)
+</p>
+
+<h3>Block quotes</h3>
+<p>
+    @bootstrap.BlockQuote("A random quote", "Someone on", "internet", "internet")
+    @bootstrap.BlockQuote("I would love to change the world, but they won't give me the source code ",
+                          "Unknown author from", "Internet", "Internet", true)
+</p>
+
+<h3>Emphasis</h3>
+
+@using (bootstrap.BeginList(ListType.Ordered))
+{
+    <li>@bootstrap.EmphasizedParagraph("Sir, I just wanted to inform you that you are awesome!", EmphasisType.Info)</li>
+    <li>@bootstrap.EmphasizedParagraph("Well... It seems like a muted text.", EmphasisType.Muted)</li>
+    <li>@bootstrap.EmphasizedParagraph("Wow, you successfully understood BootstrapMVC!", EmphasisType.Success)</li>
+    <li>@bootstrap.EmphasizedParagraph("You seems nice, but I wouldn't do that if I were you.", EmphasisType.Warning)</li>
+    <li>@bootstrap.EmphasizedParagraph("I Told you so... Now everything is messed up!", EmphasisType.Error)</li>
+}
+
