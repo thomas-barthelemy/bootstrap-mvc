@@ -12,19 +12,19 @@ namespace ExtraMvcExtension.Bootstrap
     /// </summary>
     public class BootstrapHelper
     {
-        #region Fields
+        #region Properties
         /// <summary>
         /// Represents the instance of the <see cref="HtmlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
         /// </summary>
-        protected HtmlHelper Html { get; }
+        protected HtmlHelper Html { get; private set; }
         /// <summary>
         /// Represents the instance of the <see cref="UrlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
         /// </summary>
-        protected UrlHelper Url { get; }
+        protected UrlHelper Url { get; private set; }
         /// <summary>
         /// Represents the instance of the <see cref="BootstrapMvcPage"/> associated to this <see cref="BootstrapHelper"/>
         /// </summary>
-        protected WebViewPage Page { get; }
+        protected WebViewPage Page { get; private set; }
         #endregion
 
         #region Constructors
