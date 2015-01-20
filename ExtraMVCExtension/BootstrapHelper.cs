@@ -8,42 +8,28 @@ using ExtraMvcExtension.Bootstrap.Enums;
 namespace ExtraMvcExtension.Bootstrap
 {
     /// <summary>
-    /// Provides methods to generate HTML code for Twitter Bootstrap.
+    ///     Provides methods to generate HTML code for Twitter Bootstrap.
     /// </summary>
     public class BootstrapHelper
     {
-        #region Properties
-        /// <summary>
-        /// Represents the instance of the <see cref="HtmlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
-        /// </summary>
-        protected HtmlHelper Html { get; private set; }
-        /// <summary>
-        /// Represents the instance of the <see cref="UrlHelper"/> associated with this <see cref="BootstrapMvcPage"/>.
-        /// </summary>
-        protected UrlHelper Url { get; private set; }
-        /// <summary>
-        /// Represents the instance of the <see cref="BootstrapMvcPage"/> associated to this <see cref="BootstrapHelper"/>
-        /// </summary>
-        protected WebViewPage Page { get; private set; }
-        #endregion
-
         #region Constructors
+
         /// <summary>
-        /// Creates a new instance of the Bootstrap helper.
+        ///     Creates a new instance of the Bootstrap helper.
         /// </summary>
         /// <param name="page">The current view</param>
         public BootstrapHelper(WebViewPage page)
         {
-            Page = page;
             Html = page.Html;
             Url = page.Url;
         }
+
         #endregion
 
         #region Internal Helpers
 
         /// <summary>
-        /// Checks if an Url is matching the current view.
+        ///     Checks if an Url is matching the current view.
         /// </summary>
         /// <param name="url">Url to check</param>
         internal bool IsCurrentUrl(string url)
@@ -52,12 +38,28 @@ namespace ExtraMvcExtension.Bootstrap
             if (currentUrl == null) return false;
             return currentUrl.AbsoluteUri.Equals(url) || currentUrl.AbsolutePath.Equals(url);
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Represents the instance of the <see cref="HtmlHelper" /> associated with
+        ///     the currend <see cref="WebViewPage" />.
+        /// </summary>
+        protected HtmlHelper Html { get; private set; }
+
+        /// <summary>
+        ///     Represents the instance of the <see cref="UrlHelper" /> associated with this <see cref="WebViewPage" />.
+        /// </summary>
+        protected UrlHelper Url { get; private set; }
+
         #endregion
 
         #region Typography
 
         /// <summary>
-        /// Creates an HTML abbreviation with it's corresponding definition.
+        ///     Creates an HTML abbreviation with it's corresponding definition.
         /// </summary>
         /// <param name="title">Definition of the abbreviation.</param>
         /// <param name="value">The abbreviation.</param>
@@ -65,14 +67,15 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return Abbreviation(title, value, false);
         }
+
         /// <summary>
-        /// Creates an HTML abbreviation with it's corresponding definition.
+        ///     Creates an HTML abbreviation with it's corresponding definition.
         /// </summary>
         /// <param name="title">Definition of the abbreviation.</param>
         /// <param name="value">The abbreviation.</param>
         /// <param name="isReduced">
-        /// Defines if the abbreviation uses the <c>initialism</c> class for a slightly
-        /// smaller font-size.
+        ///     Defines if the abbreviation uses the <c>initialism</c> class for a slightly
+        ///     smaller font-size.
         /// </param>
         public MvcHtmlString Abbreviation(string title, string value, bool isReduced)
         {
@@ -85,32 +88,34 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Creates an HTML block-quote.
+        ///     Creates an HTML block-quote.
         /// </summary>
         /// <param name="quote">The quote.</param>
         /// <param name="author">The author.</param>
         /// <param name="source">The source.</param>
         /// <param name="sourceTitle">
-        /// The <paramref name="source"/> title.
+        ///     The <paramref name="source" /> title.
         /// </param>
         public MvcHtmlString BlockQuote(string quote, string author, string source, string sourceTitle)
         {
             return BlockQuote(quote, author, source, sourceTitle, false);
         }
+
         /// <summary>
-        /// Creates an HTML block-quote.
+        ///     Creates an HTML block-quote.
         /// </summary>
         /// <param name="quote">The quote.</param>
         /// <param name="author">The author.</param>
         /// <param name="source">The source.</param>
         /// <param name="sourceTitle">
-        /// The <paramref name="source"/> title.
+        ///     The <paramref name="source" /> title.
         /// </param>
         /// <param name="isPulledRight">
-        /// Set to <see langword="true"/> for a floated, right-aligned
-        /// blockquote.
+        ///     Set to <see langword="true" /> for a floated, right-aligned
+        ///     blockquote.
         /// </param>
-        public MvcHtmlString BlockQuote(string quote, string author, string source, string sourceTitle, bool isPulledRight)
+        public MvcHtmlString BlockQuote(string quote, string author, string source, string sourceTitle,
+            bool isPulledRight)
         {
             var blockquote = new TagBuilderExt("blockquote");
             if (isPulledRight)
@@ -126,11 +131,10 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Begins a new list tag
+        ///     Begins a new list tag
         /// </summary>
         /// <param name="listType">Type of the desired list.</param>
         /// <returns>
-        /// 
         /// </returns>
         public BootstrapMvcList BeginList(ListType listType)
         {
@@ -139,8 +143,9 @@ namespace ExtraMvcExtension.Bootstrap
 
             return list;
         }
+
         /// <summary>
-        /// Creates a list with the associated elements.
+        ///     Creates a list with the associated elements.
         /// </summary>
         /// <param name="listType">The type of the list.</param>
         /// <param name="elements">The elements of the list.</param>
@@ -159,10 +164,10 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Creates a list of terms with their associated descriptions.
+        ///     Creates a list of terms with their associated descriptions.
         /// </summary>
         /// <param name="isHorizontal">
-        /// Make terms and descriptions in the description list line up side-by-side.
+        ///     Make terms and descriptions in the description list line up side-by-side.
         /// </param>
         public BootstrapMvcList BeginDescriptionList(bool isHorizontal)
         {
@@ -171,15 +176,16 @@ namespace ExtraMvcExtension.Bootstrap
 
             return list;
         }
+
         /// <summary>
-        /// Creates a description list with the associated descriptions
+        ///     Creates a description list with the associated descriptions
         /// </summary>
         /// <param name="isHorizontal">
-        /// Make terms and descriptions in line up side-by-side.
+        ///     Make terms and descriptions in line up side-by-side.
         /// </param>
         /// <param name="elements">
-        /// The dictionary of descriptions by title (key) and description
-        /// (value).
+        ///     The dictionary of descriptions by title (key) and description
+        ///     (value).
         /// </param>
         public MvcHtmlString DescriptionList(bool isHorizontal, IDictionary<string, string> elements)
         {
@@ -199,7 +205,7 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Creates an emphasized paragraph
+        ///     Creates an emphasized paragraph
         /// </summary>
         /// <param name="text">Content of the emphasized paragraph</param>
         /// <param name="emphasisType">Type of the emphasis</param>
@@ -233,7 +239,7 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Makes a paragraph using the lead class to make it stand out.
+        ///     Makes a paragraph using the lead class to make it stand out.
         /// </summary>
         /// <param name="text">Content of the paragraph</param>
         public MvcHtmlString LeadBody(string text)
@@ -249,7 +255,8 @@ namespace ExtraMvcExtension.Bootstrap
 
         #region Buttons
 
-        private TagBuilderExt CreateBaseButton(string tagName, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
+        private TagBuilderExt CreateBaseButton(string tagName, ButtonStyle buttonStyle, ButtonSize buttonSize,
+            bool isDisabled)
         {
             var tag = new TagBuilderExt(tagName);
             tag.AddCssClass("btn");
@@ -301,17 +308,18 @@ namespace ExtraMvcExtension.Bootstrap
         #region Link buttons
 
         /// <summary>
-        /// Creates an "a" tag styled as a button.
+        ///     Creates an "a" tag styled as a button.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="href">Link destination.</param>
         /// <param name="buttonType">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">
-        /// Makes the button looks unclickable by fading them back 50%. True to
-        /// disable, False to enable.
+        ///     Makes the button looks unclickable by fading them back 50%. True to
+        ///     disable, False to enable.
         /// </param>
-        public MvcHtmlString LinkButton(string text, string href, ButtonStyle buttonType, ButtonSize buttonSize, bool isDisabled)
+        public MvcHtmlString LinkButton(string text, string href, ButtonStyle buttonType, ButtonSize buttonSize,
+            bool isDisabled)
         {
             var tag = CreateBaseButton("a", buttonType, buttonSize, isDisabled);
             tag.SetInnerText(text);
@@ -319,8 +327,9 @@ namespace ExtraMvcExtension.Bootstrap
 
             return tag.ToMvcHtmlString();
         }
+
         /// <summary>
-        /// Creates an "a" tag with a default button style and size.
+        ///     Creates an "a" tag with a default button style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="href">Link destination.</param>
@@ -328,18 +337,20 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return LinkButton(text, href, ButtonStyle.Default, ButtonSize.Default, false);
         }
+
         #endregion
 
         #region Submit buttons
+
         /// <summary>
-        /// Creates a submit button tag with the given style and size.
+        ///     Creates a submit button tag with the given style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">
-        /// Make buttons look unclickable by fading them back 50%. True to
-        /// disable, False to enable.
+        ///     Make buttons look unclickable by fading them back 50%. True to
+        ///     disable, False to enable.
         /// </param>
         public MvcHtmlString SubmitButton(string text, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
         {
@@ -349,26 +360,29 @@ namespace ExtraMvcExtension.Bootstrap
 
             return tag.ToMvcHtmlString();
         }
+
         /// <summary>
-        /// Creates a submit button tag with a default style and size.
+        ///     Creates a submit button tag with a default style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         public MvcHtmlString SubmitButton(string text)
         {
             return SubmitButton(text, ButtonStyle.Default, ButtonSize.Default, false);
         }
+
         #endregion
 
         #region Input buttons
+
         /// <summary>
-        /// Creates an input button tag with the given style and size.
+        ///     Creates an input button tag with the given style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">
-        /// Make buttons look unclickable by fading them back 50%. True to
-        /// disable, False to enable.
+        ///     Make buttons look unclickable by fading them back 50%. True to
+        ///     disable, False to enable.
         /// </param>
         public MvcHtmlString InputButton(string text, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
         {
@@ -378,28 +392,32 @@ namespace ExtraMvcExtension.Bootstrap
 
             return tag.ToMvcHtmlString();
         }
+
         /// <summary>
-        /// Creates an input button tag with a default style and size.
+        ///     Creates an input button tag with a default style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         public MvcHtmlString InputButton(string text)
         {
             return InputButton(text, ButtonStyle.Default, ButtonSize.Default, false);
         }
+
         #endregion
 
         #region Input Submit buttons
+
         /// <summary>
-        /// Creates an input submit button tag with the given style and size.
+        ///     Creates an input submit button tag with the given style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         /// <param name="buttonStyle">The button style type.</param>
         /// <param name="buttonSize">The button size.</param>
         /// <param name="isDisabled">
-        /// Make buttons look unclickable by fading them back 50%. True to
-        /// disable, False to enable.
+        ///     Make buttons look unclickable by fading them back 50%. True to
+        ///     disable, False to enable.
         /// </param>
-        public MvcHtmlString InputSubmitButton(string text, ButtonStyle buttonStyle, ButtonSize buttonSize, bool isDisabled)
+        public MvcHtmlString InputSubmitButton(string text, ButtonStyle buttonStyle, ButtonSize buttonSize,
+            bool isDisabled)
         {
             var tag = CreateBaseButton("input", buttonStyle, buttonSize, isDisabled);
             tag.MergeAttribute("type", "submit");
@@ -407,20 +425,24 @@ namespace ExtraMvcExtension.Bootstrap
 
             return tag.ToMvcHtmlString();
         }
+
         /// <summary>
-        /// Creates an input submit button tag with a default style and size.
+        ///     Creates an input submit button tag with a default style and size.
         /// </summary>
         /// <param name="text">Inner text of the tag.</param>
         public MvcHtmlString InputSubmitButton(string text)
         {
             return InputSubmitButton(text, ButtonStyle.Default, ButtonSize.Default, false);
         }
+
         #endregion
+
         #endregion
 
         #region Images
+
         /// <summary>
-        /// Define an image
+        ///     Define an image
         /// </summary>
         /// <param name="source">the url for the image</param>
         /// <param name="alt">alternate text for the image</param>
@@ -448,8 +470,9 @@ namespace ExtraMvcExtension.Bootstrap
 
             return img.ToMvcHtmlString();
         }
+
         /// <summary>
-        /// Define an Image(source as the alternate text).
+        ///     Define an Image(source as the alternate text).
         /// </summary>
         /// <param name="source">url and alternate text</param>
         /// <param name="imageType">type of image</param>
@@ -457,16 +480,18 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return Image(source, source, imageType);
         }
+
         #endregion
 
         #region Menu
+
         /// <summary>
-        /// Creates a menu (<c>navbar</c>) that can contains menu components.
+        ///     Creates a menu (<c>navbar</c>) that can contains menu components.
         /// </summary>
         /// <param name="menuType">The menu type</param>
         /// <param name="isInversed">
-        /// Reverse the <c>navbar</c> colors: True to reverse, False (default) for
-        /// normal.
+        ///     Reverse the <c>navbar</c> colors: True to reverse, False (default) for
+        ///     normal.
         /// </param>
         public BootstrapMvcMenu BeginMenu(MenuType menuType, bool isInversed)
         {
@@ -474,17 +499,19 @@ namespace ExtraMvcExtension.Bootstrap
             menu.BeginMenu(menuType, isInversed);
             return menu;
         }
+
         /// <summary>
-        /// Creates a menu (<c>navbar</c>) that can contains menu components.
+        ///     Creates a menu (<c>navbar</c>) that can contains menu components.
         /// </summary>
         /// <param name="menuType">The menu type</param>
         public BootstrapMvcMenu BeginMenu(MenuType menuType)
         {
             return BeginMenu(menuType, false);
         }
+
         /// <summary>
-        /// Creates a basic default menu (<c>navbar</c>) that can contains menu
-        /// components.
+        ///     Creates a basic default menu (<c>navbar</c>) that can contains menu
+        ///     components.
         /// </summary>
         public BootstrapMvcMenu BeginMenu()
         {
@@ -492,27 +519,27 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
 
-
         /// <summary>
-        /// Creates a menu <paramref name="title"/> (have to be used inside a
-        /// navbar menu).
+        ///     Creates a menu <paramref name="title" /> (have to be used inside a
+        ///     navbar menu).
         /// </summary>
         /// <param name="title">Title of the menu</param>
         /// <param name="action">The name of the a action</param>
         /// <param name="controller">The name of the controller</param>
         /// <param name="routeValues">
-        /// An object that contains the parameters for a route. The parameters
-        /// are retrieved through reflection by examining the properties of the
-        /// object. The object is typically created by using object initializer
-        /// syntax.
+        ///     An object that contains the parameters for a route. The parameters
+        ///     are retrieved through reflection by examining the properties of the
+        ///     object. The object is typically created by using object initializer
+        ///     syntax.
         /// </param>
         public MvcHtmlString MenuTitle(string title, string action, string controller, object routeValues)
         {
             return MenuTitle(title, Url.Action(action, controller, routeValues));
         }
+
         /// <summary>
-        /// Creates a menu <paramref name="title"/> (have to be used inside a
-        /// navbar menu).
+        ///     Creates a menu <paramref name="title" /> (have to be used inside a
+        ///     navbar menu).
         /// </summary>
         /// <param name="title">Title of the menu</param>
         /// <param name="action">The action name</param>
@@ -521,9 +548,10 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return MenuTitle(title, Url.Action(action, controller));
         }
+
         /// <summary>
-        /// Creates a menu <paramref name="title"/> (have to be used inside a
-        /// navbar menu).
+        ///     Creates a menu <paramref name="title" /> (have to be used inside a
+        ///     navbar menu).
         /// </summary>
         /// <param name="title">Title of the menu</param>
         /// <param name="url">A Fully quallified URL</param>
@@ -537,7 +565,7 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Begins a menu items container.
+        ///     Begins a menu items container.
         /// </summary>
         public BootstrapMvcMenuItemsContainer BeginMenuItems()
         {
@@ -548,25 +576,26 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Creates one menu link entry with the specified
-        /// <paramref name="title"/> and link.
+        ///     Creates one menu link entry with the specified
+        ///     <paramref name="title" /> and link.
         /// </summary>
         /// <param name="title">The title of the menu link</param>
         /// <param name="action">The name of the action</param>
         /// <param name="controller">The name of the controller</param>
         /// <param name="routeValues">
-        /// An object that contains the parameters for a route. The parameters
-        /// are retrieved through reflection by examining the properties of the
-        /// object. The object is typically created by using object initializer
-        /// syntax.
+        ///     An object that contains the parameters for a route. The parameters
+        ///     are retrieved through reflection by examining the properties of the
+        ///     object. The object is typically created by using object initializer
+        ///     syntax.
         /// </param>
         public MvcHtmlString MenuLink(string title, string action, string controller, object routeValues)
         {
             return MenuLink(title, Url.Action(action, controller, routeValues));
         }
+
         /// <summary>
-        /// Creates one menu link entry with the specified
-        /// <paramref name="title"/> and link.
+        ///     Creates one menu link entry with the specified
+        ///     <paramref name="title" /> and link.
         /// </summary>
         /// <param name="title">The title of the menu link</param>
         /// <param name="action">The name of the action</param>
@@ -575,9 +604,10 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return MenuLink(title, Url.Action(action, controller));
         }
+
         /// <summary>
-        /// Creates one menu link entry with the specified
-        /// <paramref name="title"/> and link.
+        ///     Creates one menu link entry with the specified
+        ///     <paramref name="title" /> and link.
         /// </summary>
         /// <param name="title">The title of the menu link</param>
         /// <param name="url">The fully quallified URL</param>
@@ -596,7 +626,7 @@ namespace ExtraMvcExtension.Bootstrap
 
 
         /// <summary>
-        /// Creates a vertical menu-item separator
+        ///     Creates a vertical menu-item separator
         /// </summary>
         public MvcHtmlString MenuItemSeparator()
         {
@@ -607,11 +637,11 @@ namespace ExtraMvcExtension.Bootstrap
         }
 
         /// <summary>
-        /// Begins a menu form. Have to be used inside a Bootstrap MVC Menu.
+        ///     Begins a menu form. Have to be used inside a Bootstrap MVC Menu.
         /// </summary>
         /// <param name="menuFormType">The form type</param>
         /// <param name="horizontalAlignment">
-        /// The horizontal alignment applied on the form
+        ///     The horizontal alignment applied on the form
         /// </param>
         public BootstrapMenuForm BeginMenuForm(MenuFormType menuFormType, HorizontalAlignment horizontalAlignment)
         {
@@ -619,44 +649,47 @@ namespace ExtraMvcExtension.Bootstrap
             menuForm.BeginList(menuFormType, horizontalAlignment);
             return menuForm;
         }
+
         /// <summary>
-        /// Begins a default menu form. Have to be used inside a Bootstrap MVC
-        /// Menu.
+        ///     Begins a default menu form. Have to be used inside a Bootstrap MVC
+        ///     Menu.
         /// </summary>
         /// <param name="horizontalAlignment">
-        /// The horizontal alignment applied on the form
+        ///     The horizontal alignment applied on the form
         /// </param>
         public BootstrapMenuForm BeginMenuForm(HorizontalAlignment horizontalAlignment)
         {
             return BeginMenuForm(MenuFormType.Default, horizontalAlignment);
         }
+
         /// <summary>
-        /// Begins a menu form with a default left alignment. Have to be used
-        /// inside a Bootstrap MVC Menu.
+        ///     Begins a menu form with a default left alignment. Have to be used
+        ///     inside a Bootstrap MVC Menu.
         /// </summary>
         /// <param name="menuFormType">The form type</param>
         public BootstrapMenuForm BeginMenuForm(MenuFormType menuFormType)
         {
             return BeginMenuForm(menuFormType, HorizontalAlignment.Left);
-
         }
+
         /// <summary>
-        /// Begins a default menu form with a default left alignment. Have to be
-        /// used inside a Bootstrap MVC Menu.
+        ///     Begins a default menu form with a default left alignment. Have to be
+        ///     used inside a Bootstrap MVC Menu.
         /// </summary>
         public BootstrapMenuForm BeginMenuForm()
         {
             return BeginMenuForm(MenuFormType.Default, HorizontalAlignment.Left);
         }
+
         #endregion
 
         #region Breadcrumbs
+
         /// <summary>
-        /// Begins a breadcrumbs container that can be filled with breadcrumb
-        /// links.
+        ///     Begins a breadcrumbs container that can be filled with breadcrumb
+        ///     links.
         /// </summary>
         /// <returns>
-        /// 
         /// </returns>
         public BootstrapBreadcrumb BeginBreadCrumb()
         {
@@ -665,70 +698,54 @@ namespace ExtraMvcExtension.Bootstrap
             return breadCrumb;
         }
 
-        //public MvcHtmlString Breadcrumb(int maximumElements, string divider)
-        //{
-        //    var breadcrumbTag = new TagBuilderExt("ul");
-        //    breadcrumbTag.AddCssClass("breadcrumb");
-        //    var navHistory = Page.NavigationHistory.ToArray();
-
-        //    var linksToDisplay = navHistory.Skip(Math.Max(0, navHistory.Count() - maximumElements)).Take(maximumElements);
-        //    var visitedPages = linksToDisplay as IList<VisitedPage> ?? linksToDisplay.ToList();
-        //    var lastElement = visitedPages.Last();
-        //    foreach (var visitedPage in visitedPages)
-        //    {
-        //        if (visitedPage == lastElement)
-        //            divider = null;
-        //        breadcrumbTag.InnerHtml += BreadcrumbLink(visitedPage.Title, visitedPage.Uri.AbsoluteUri, divider);
-        //    }
-
-        //    return breadcrumbTag.ToMvcHtmlString();
-        //}
-
         /// <summary>
-        /// Creates one breadcrumb link entry with the specified
-        /// <paramref name="title"/> and link.
+        ///     Creates one breadcrumb link entry with the specified
+        ///     <paramref name="title" /> and link.
         /// </summary>
         /// <param name="title">The title of the breadcrumb link</param>
         /// <param name="action">The name of the action</param>
         /// <param name="controller">The name of the controller</param>
         /// <param name="routeValues">
-        /// An object that contains the parameters for a route. The parameters
-        /// are retrieved through reflection by examining the properties of the
-        /// object. The object is typically created by using object initializer
-        /// syntax.
+        ///     An object that contains the parameters for a route. The parameters
+        ///     are retrieved through reflection by examining the properties of the
+        ///     object. The object is typically created by using object initializer
+        ///     syntax.
         /// </param>
         /// <param name="divider">
-        /// Specify the divider created after the link. Set to "null" or empty
-        /// for no divider.
+        ///     Specify the divider created after the link. Set to "null" or empty
+        ///     for no divider.
         /// </param>
-        public MvcHtmlString BreadcrumbLink(string title, string action, string controller, object routeValues, string divider)
+        public MvcHtmlString BreadcrumbLink(string title, string action, string controller, object routeValues,
+            string divider)
         {
             return BreadcrumbLink(title, Url.Action(action, controller, routeValues), divider);
         }
+
         /// <summary>
-        /// Creates one breadcrumb link entry with the specified
-        /// <paramref name="title"/> and link.
+        ///     Creates one breadcrumb link entry with the specified
+        ///     <paramref name="title" /> and link.
         /// </summary>
         /// <param name="title">The title of the breadcrumb link</param>
         /// <param name="action">The name of the action</param>
         /// <param name="controller">The name of the controller</param>
         /// <param name="divider">
-        /// Specify the divider created after the link. Set to "null" or empty
-        /// for no divider.
+        ///     Specify the divider created after the link. Set to "null" or empty
+        ///     for no divider.
         /// </param>
         public MvcHtmlString BreadcrumbLink(string title, string action, string controller, string divider)
         {
             return BreadcrumbLink(title, Url.Action(action, controller), divider);
         }
+
         /// <summary>
-        /// Creates one breadcrumb link entry with the specified
-        /// <paramref name="title"/> and link.
+        ///     Creates one breadcrumb link entry with the specified
+        ///     <paramref name="title" /> and link.
         /// </summary>
         /// <param name="title">The title of the breadcrumb link</param>
         /// <param name="stringUrl">The fully quallified URL</param>
         /// <param name="divider">
-        /// Specify the divider created after the link. Set to "null" or empty
-        /// for no divider.
+        ///     Specify the divider created after the link. Set to "null" or empty
+        ///     for no divider.
         /// </param>
         public MvcHtmlString BreadcrumbLink(string title, string stringUrl, string divider)
         {
@@ -755,13 +772,15 @@ namespace ExtraMvcExtension.Bootstrap
             }
             return listItem.ToMvcHtmlString();
         }
+
         #endregion
 
         #region Progress bars
+
         /// <summary>
-        /// Creates a Bootstrap progress-bar with a defined 
-        /// <paramref name="style"/>, <paramref name="color"/> and 
-        /// <paramref name="progress"/>.
+        ///     Creates a Bootstrap progress-bar with a defined
+        ///     <paramref name="style" />, <paramref name="color" /> and
+        ///     <paramref name="progress" />.
         /// </summary>
         /// <param name="style">The style of the progress bar</param>
         /// <param name="color">The color of the progress bar</param>
@@ -792,7 +811,7 @@ namespace ExtraMvcExtension.Bootstrap
                 case ProgressBarStyle.Animated:
                     progressTag.AddCssClass("active");
                     break;
-                    
+
                 case ProgressBarStyle.Striped:
                     progressTag.AddCssClass("progress-striped");
                     break;
@@ -807,10 +826,11 @@ namespace ExtraMvcExtension.Bootstrap
             barTag.MergeAttribute("style", string.Format("width: {0}%", progress));
             return progressTag.ToMvcHtmlString();
         }
+
         /// <summary>
-        /// Creates a Bootstrap progress-bar with a defined 
-        /// <paramref name="style"/>, a default color and 
-        /// <paramref name="progress"/>.
+        ///     Creates a Bootstrap progress-bar with a defined
+        ///     <paramref name="style" />, a default color and
+        ///     <paramref name="progress" />.
         /// </summary>
         /// <param name="style">The style of the progress bar</param>
         /// <param name="progress">The current progress percentage</param>
@@ -818,10 +838,11 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return ProgressBar(style, ProgressBarColor.Default, progress);
         }
+
         /// <summary>
-        /// Creates a Bootstrap progress-bar with a default 
-        /// style, a specified <paramref name="color"/> and 
-        /// <paramref name="progress"/>.
+        ///     Creates a Bootstrap progress-bar with a default
+        ///     style, a specified <paramref name="color" /> and
+        ///     <paramref name="progress" />.
         /// </summary>
         /// <param name="color">The color of the progress bar</param>
         /// <param name="progress">The current progress percentage</param>
@@ -829,39 +850,34 @@ namespace ExtraMvcExtension.Bootstrap
         {
             return ProgressBar(ProgressBarStyle.Default, color, progress);
         }
+
         /// <summary>
-        /// Creates a Bootstrap progress-bar with a default color and style.
+        ///     Creates a Bootstrap progress-bar with a default color and style.
         /// </summary>
         /// <param name="progress">The current progress percentage</param>
         public MvcHtmlString ProgressBar(double progress)
         {
             return ProgressBar(ProgressBarStyle.Default, ProgressBarColor.Default, progress);
         }
+
         #endregion
 
         #region Forms
 
         #endregion
-
     }
 
     /// <summary>
-    /// Provides methods to generate HTML code for Twitter Bootstrap on a generic view.
+    ///     Contains Extension Methods to simplify the use of the Bootstrap Helper Library.
     /// </summary>
-    /// <typeparam name="TModel">The generic page-view view-model</typeparam>
-    public class BootstrapHelper<TModel> : BootstrapHelper
-        where TModel : class
+    public static class BootstrapExtensions
     {
-        private BootstrapMvcPage _page;
-        private HtmlHelper<TModel> _html; 
         /// <summary>
-        /// Creates a new instance of the Bootstrap helper.
+        ///     Creates a new instance of a BootstrapHelper for the current WebViewPage.
         /// </summary>
-        /// <param name="page">The current view.</param>
-        public BootstrapHelper(BootstrapMvcPage<TModel> page) : base(page)
+        public static BootstrapHelper CreateBootstrapHelper(this WebViewPage page)
         {
-            _page = page;
-            _html = page.Html;
+            return new BootstrapHelper(page);
         }
     }
 }

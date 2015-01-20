@@ -55,7 +55,6 @@
     <Compile Include="BootstrapModels\BootstrapList.cs" />
     <Compile Include="BootstrapModels\BootstrapMenuItemContainer.cs" />
     <Compile Include="BootstrapModels\BootstrapMvcMenu.cs" />
-    <Compile Include="BootstrapModels\BootstrapMvcPage.cs" />
     <Compile Include="BootstrapModels\BootstrapMenuForm.cs" />
     <Compile Include="Enums\Buttons.cs" />
     <Compile Include="Enums\Forms.cs" />

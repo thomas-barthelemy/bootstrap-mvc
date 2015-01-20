@@ -2,7 +2,7 @@
 @using ExtraMvcExtension.Bootstrap.Enums
 @{
     ViewBag.Title = "MenuTwo";
-    var bootstrap = new BootstrapHelper(this);
+    var bootstrap = this.CreateBootstrapHelper();
 }
 
 @bootstrap.ProgressBar(ProgressBarStyle.Animated, ViewBag.Progress)
